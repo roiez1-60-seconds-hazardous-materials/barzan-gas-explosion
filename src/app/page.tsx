@@ -9,10 +9,10 @@ const P = {
   flame:"#ff6b00",muted:"#64748b",border:"#e2e0d8",white:"#ffffff"
 };
 
-const sIDs=["home","summary","plant","process","timeline","rootcause","vce","plume","hazmat","response","geo","lessons","document","sources"];
-const sHe=["ראשי","תקציר","המתקן","תהליך הייצור","ציר זמן","שרשרת הכשל","הדמיית VCE","פיזור הענן","חומרים מסוכנים","מענה חומ״ס","רקע גאופוליטי","לקחים ותובנות","המסמך","מקורות"];
-const sEn=["Home","Summary","The Plant","Process","Timeline","Failure Chain","VCE Sim","Plume","Hazards","HazMat Response","Geopolitics","Lessons","Document","Sources"];
-const sIcon=["🏠","📋","🏭","⚗️","🕐","⛓️","💥","☁️","☣️","🛡️","🌍","🎓","📄","🔗"];
+const sIDs=["home","summary","plant","process","timeline","rootcause","vce","plume","hazmat","response","geo","lessons","infographic","document","sources"];
+const sHe=["ראשי","תקציר","המתקן","תהליך הייצור","ציר זמן","שרשרת הכשל","הדמיית VCE","פיזור הענן","חומרים מסוכנים","מענה חומ״ס","רקע גאופוליטי","לקחים ותובנות","אינפוגרפיקה","המסמך","מקורות"];
+const sEn=["Home","Summary","The Plant","Process","Timeline","Failure Chain","VCE Sim","Plume","Hazards","HazMat Response","Geopolitics","Lessons","Infographic","Document","Sources"];
+const sIcon=["🏠","📋","🏭","⚗️","🕐","⛓️","💥","☁️","☣️","🛡️","🌍","🎓","📊","📄","🔗"];
 
 /* ═══ PROGRESS BAR ═══ */
 function ProgressBar(){const[p,setP]=useState(0);useEffect(()=>{const fn=()=>{const h=document.documentElement.scrollHeight-window.innerHeight;setP(h>0?(window.scrollY/h)*100:0);};window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn);},[]);return<div style={{position:"fixed",top:0,left:0,right:0,zIndex:100,height:3,background:P.cream}}><div style={{height:"100%",width:`${p}%`,background:`linear-gradient(90deg,${P.gold},${P.gL})`,transition:"width 120ms"}}/></div>;}
@@ -220,18 +220,21 @@ return<Sec id="process" num="03" title={he?"תהליך הייצור":"Production
 
 /* ═══ 04 TIMELINE — animated event reconstruction ═══ */
 function Timeline({lang}:{lang:string}){const he=lang==="he";const ev=[
-  {t:"12/2025",h:he?"השבתת המתקן לתחזוקה דחופה. קטר מכריזה כוח עליון על ייצוא LNG":"Plant shut down for urgent maintenance. Qatar declares force majeure on LNG exports",c:P.muted},
-  {t:"03/2026",h:he?"מתקפות טילים ורחפנים איראניות פוגעות בקריית התעשייה ראס לאפן (18-19/3) — נזק נרחב ושריפות במתקן Pearl GTL ובמספר מתקני LNG. קטר כבר השביתה ייצור ב-2/3 והכריזה כוח עליון":"Iranian missile & drone strikes hit Ras Laffan Industrial City (Mar 18-19) — extensive damage & fires at the Pearl GTL facility and several LNG facilities. Qatar had already halted production on Mar 2 and declared force majeure",c:P.red,r:true},
-  {t:"03–06/2026",h:he?"עבודות שיקום: החלפת מקטעי צנרת, ריתוך מחדש ובדיקות. הכנה להתנעה מחדש":"Restoration works: pipe-section replacement, re-welding and inspections. Preparation for restart",c:P.amber},
-  {t:he?"19/06":"Jun 19",h:he?"המתקן מופעל מחדש לראשונה לאחר 6 חודשי השבתה":"Plant restarted for the first time after 6-month shutdown",c:P.blue},
-  {t:he?"21/06 · T-0":"Jun 21 · T-0",h:he?"שלב התנעה: הזרמת גז בלחץ גבוה לצורך ניסוי המערכות. \"הלם גז\" (Gas Hammer) — גל לחץ פתאומי":"Start-up: high-pressure gas introduced to test systems. \"Gas Hammer\" — sudden pressure surge",c:P.flame,r:true},
-  {t:"T+0s",h:he?"פריצת המעטפת: סדק זעיר (Micro-fissure) שלא אותר ב-NDT נפתח. קריעה מבנית של אוגן/צנרת":"Loss of Containment: an undetected micro-fissure opens. Structural rupture of a flange/pipe",c:P.flame,r:true},
-  {t:"T+sec",h:he?"היווצרות ענן אדים: גז מתאן ו-NGL בלחץ גבוה נפלטו, התאדו והתערבבו עם החמצן בטווח הנפיצות":"Vapor cloud forms: high-pressure methane & NGL released, flash-vaporized and mixed with air within flammable range",c:P.red,r:true},
-  {t:"T+min",h:he?"הצתה ופיצוץ נפחי (VCE): הענן נדד למקור הצתה ונחשף. גל הדף הרסני שיצר כדור אש":"Ignition & VCE: cloud drifted to an ignition source. Destructive blast wave creating a fireball",c:"#7f1d1d",r:true},
-  {t:he?"לאחר":"After",h:he?"הפעלת תוכנית החירום: כיבוי, קירור חשיפה, חיפוש והצלה, וטיפול ב-H₂S שיורי":"Emergency plan activated: firefighting, exposure cooling, search & rescue, and residual H₂S handling",c:P.green},
+  {t:"02/03/2026",h:he?"קטר משביתה את ייצור ה-LNG בעקבות מתקפות רחפנים ראשוניות בראס לאפן ובמסיעיד, ומכריזה כוח עליון (Force Majeure) ללקוחותיה":"Qatar halts LNG production following initial drone strikes at Ras Laffan and Mesaieed, and declares force majeure to its customers",c:P.amber,r:true},
+  {t:"18-19/03/2026",h:he?"גל מתקפות טילים איראני פוגע בקריית התעשייה ראס לאפן — נזק נרחב ושריפות במתקן Pearl GTL (ב-18/3) ובמספר מתקני LNG (ב-19/3)":"Iranian missile strikes hit Ras Laffan Industrial City — extensive damage & fires at the Pearl GTL facility (Mar 18) and several LNG facilities (Mar 19)",c:P.red,r:true},
+  {t:"12/2025",h:he?"מתקן ברזאן הושבת באופן יזום לתחזוקה דחופה (לפי הצהרת מנכ\"ל QatarEnergy)":"The Barzan plant was intentionally shut down for urgent maintenance (per QatarEnergy CEO statement)",c:P.muted},
+  {t:"03–06/2026",h:he?"עבודות שיקום באזור: החלפת מקטעי צנרת, ריתוך מחדש ובדיקות. במקביל — לחץ כלכלי כבד לחזור לייצור עם פתיחת מצר הורמוז":"Regional restoration works: pipe-section replacement, re-welding and inspections. In parallel — heavy economic pressure to resume production as the Strait of Hormuz reopens",c:P.amber},
+  {t:he?"19/06":"Jun 19",h:he?"מתקן ברזאן מופעל מחדש לראשונה לאחר כחצי שנת השבתה — יומיים בלבד לפני האסון":"The Barzan plant is restarted for the first time after ~6 months of shutdown — just two days before the disaster",c:P.blue},
+  {t:he?"21/06 · T-0":"Jun 21 · T-0",h:he?"שלב התנעה (Start-up): הזרמת גז בלחץ גבוה לצורך החזרת המערכות לפעולה. \"הלם גז\" (Gas Hammer) — גל לחץ פתאומי":"Start-up phase: high-pressure gas introduced to return systems to operation. \"Gas Hammer\" — sudden pressure surge",c:P.flame,r:true},
+  {t:"T+0s",h:he?"פריצת המעטפת (Loss of Containment): סדק זעיר (Micro-fissure) שלא אותר ב-NDT נפתח. קריעה מבנית של אוגן/צנרת":"Loss of Containment: an undetected micro-fissure opens. Structural rupture of a flange/pipe",c:P.flame,r:true},
+  {t:"T+sec",h:he?"היווצרות ענן אדים: גז מתאן ו-NGL בלחץ גבוה נפלטו, התאדו (Flash) והתערבבו עם החמצן בטווח הנפיצות (LEL-UEL)":"Vapor cloud forms: high-pressure methane & NGL released, flash-vaporized and mixed with air within the flammable range (LEL-UEL)",c:P.red,r:true},
+  {t:"T+min",h:he?"הצתה ופיצוץ נפחי (VCE): הענן נדד למקור הצתה באזור המדחסים ונחשף. גל הדף הרסני שיצר כדור אש":"Ignition & VCE: cloud drifted to an ignition source in the compressor area. Destructive blast wave creating a fireball",c:"#7f1d1d",r:true},
+  {t:he?"מיידי":"Immediate",h:he?"הפעלת תוכנית החירום: כיבוי וקירור חשיפה, בלימת השריפה לפני התפשטות למתקנים שכנים, וחיפוש והצלה אחר הנעדרים":"Emergency plan activated: firefighting and exposure cooling, containing the fire before spread to neighboring facilities, and search & rescue for the missing",c:P.green},
+  {t:he?"לאחר מכן":"Aftermath",h:he?"מאזן: 13 הרוגים (אזרחי הודו ופקיסטן), 66 פצועים, 18 נעדרים. הסיווג הרשמי: תקלה טכנית בהתנעה, ללא חבלה. קטר העריכה החזרת ~50% מכושר הייצור תוך חודש ו-80% תוך חודשיים":"Toll: 13 dead (Indian & Pakistani nationals), 66 injured, 18 missing. Official classification: technical malfunction during start-up, no sabotage. Qatar estimated restoring ~50% of capacity within a month and 80% within two months",c:P.steel},
 ];return<Sec id="timeline" num="04" title={he?"ציר זמן: שחזור האירוע":"Timeline: Event Reconstruction"} subtitle={he?"מהשבתה ועד פיצוץ — רצף השלבים":"From shutdown to explosion — sequence of stages"} dark sidebar={<>
   <SB color="flame" title={he?"\"הלם גז\"":"\"Gas Hammer\""}><p>{he?"גל לחץ פתאומי בצנרת, אנלוגי ל\"מכת מים\" (Water Hammer). בהזרמת גז מהירה למערכת ריקה — הלחץ הדינמי קורע נקודות חולשה שלא נמצאו בבדיקה.":"A sudden pressure surge in piping, analogous to \"water hammer\". When gas is rapidly introduced into an empty system, the dynamic pressure ruptures weak points undetected in inspection."}</p></SB>
   <SB color="red" title={he?"חלון הסיכון":"The Risk Window"}><p>{he?"מחקרי בטיחות תהליכית מראים: שלבי התנעה מחדש הם סטטיסטית מהמסוכנים ביותר — מערכות לא יציבות, איטומים שהתרופפו, ולחצים שאינם במצב יציב.":"Process safety research shows: restart phases are statistically among the most dangerous — unstable systems, loosened seals, and non-steady-state pressures."}</p></SB>
+  <SB color="amber" title={he?"📌 הערה על הסדר":"📌 Note on Order"}><p>{he?"שלבי מרץ 2026 (השבתה ופגיעה) מוצגים תחילה כרקע, ואחריהם רצף האירוע עצמו ב-21/6. ההשבתה לתחזוקה (12/2025) קדמה לכולם.":"The March 2026 stages (halt and strike) are shown first as background, followed by the event sequence itself on Jun 21. The maintenance shutdown (12/2025) preceded all of them."}</p></SB>
 </>}>
   {ev.map((e,i)=><div key={i} style={{display:"flex",gap:14,alignItems:"flex-start",padding:"12px 0",borderBottom:`1px solid ${P.border}30`,animation:`fu .5s ease-out both`,animationDelay:`${i*0.06}s`}}>
     <div className="mn" style={{flexShrink:0,width:74,fontSize:11,fontWeight:700,color:e.c,textAlign:"center"}}>{e.t}</div>
@@ -501,7 +504,7 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
   <SB color="gold" title={he?"לקח-העל":"Meta-Lesson"}><p>{he?"כל שלושת הלקחים מצביעים על אותו עקרון: בשלב התנעה מחדש, ההגנה חייבת להיות אוטומטית ומקדימה — לא תלויה בתגובה אנושית בזמן אמת.":"All three lessons point to the same principle: in a restart phase, protection must be automatic and preemptive — not dependent on real-time human response."}</p></SB>
   <SB color="purple" title={he?"היסטוריה חוזרת":"History Repeats"}><p>{he?"מ-Cleveland 1944 ועד היום — אסונות גז חוזרים על אותם דפוסים: כליאה, מקור הצתה, ותגובת חירום איטית. הלקחים ידועים; היישום הוא האתגר.":"From Cleveland 1944 to today — gas disasters repeat the same patterns: confinement, ignition source, and slow emergency response. The lessons are known; implementation is the challenge."}</p></SB>
 </>}>
-  <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:18}}>{he?"שלושה לקחים מרכזיים עולים מתחקיר האירוע — כולם מצביעים על הצורך באוטומציה ובהגנה מקדימה בשלבי התנעה מחדש:":"Three key lessons emerge from the event investigation — all pointing to the need for automation and preemptive protection in restart phases:"}</p>
+  <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:18}}>{he?"שלושה לקחים מרכזיים עולים מניתוח האירוע — כולם מצביעים על הצורך באוטומציה ובהגנה מקדימה בשלבי התנעה מחדש:":"Three key lessons emerge from analysis of the event — all pointing to the need for automation and preemptive protection in restart phases:"}</p>
   {/* Lessons cards */}
   <div style={{display:"flex",flexDirection:"column",gap:14,marginBottom:28}}>
     {lessons.map((l,i)=><div key={i} className="cm" style={{padding:18,borderRight:`4px solid ${l.c}`,display:"flex",gap:14,alignItems:"flex-start"}}>
@@ -509,7 +512,30 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
       <div style={{flex:1}}><div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:6}}><span className="sf mn" style={{fontSize:14,fontWeight:900,color:l.c}}>{l.n}</span><h4 className="sf" style={{fontSize:16,fontWeight:800,color:P.ink}}>{l.ti}</h4></div><p style={{fontSize:13,color:P.steel,lineHeight:1.7}}>{l.d}</p></div>
     </div>)}
   </div>
-  {/* Historical parallels */}
+  {/* Digital Twin deep-dive box */}
+  <div className="cm" style={{padding:0,overflow:"hidden",marginBottom:28,border:`1px solid ${P.blue}30`}}>
+    <div style={{padding:"14px 18px",background:"linear-gradient(135deg,#0c1222,#1e3a8a)",display:"flex",alignItems:"center",gap:10}}>
+      <span style={{fontSize:24}}>🧠</span>
+      <div><h4 className="sf" style={{fontSize:16,fontWeight:800,color:"#fff"}}>{he?"מהו \"תאום דיגיטלי\" (Digital Twin)?":"What is a \"Digital Twin\"?"}</h4><p style={{fontSize:10,color:`${P.gL}cc`}}>{he?"הרחבה — מושג, מקור, ומשמעות":"Deep-dive — concept, origin, and meaning"}</p></div>
+    </div>
+    <div style={{padding:18}}>
+      <p style={{fontSize:13,color:P.steel,lineHeight:1.85,marginBottom:12}}>{he?"תאום דיגיטלי הוא ייצוג וירטואלי חי של נכס פיזי (צנרת, מתקן, מערכת), המוזן בנתונים בזמן אמת מחיישנים וממערכת הבקרה (SCADA). המודל הממוחשב \"רץ במקביל\" למתקן האמיתי, ומאפשר לדמות התנהגות, לחזות תקלות, ולזהות חריגות זעירות לפני שהן הופכות לכשל.":"A digital twin is a live virtual representation of a physical asset (piping, plant, system), fed with real-time data from sensors and the control system (SCADA). The computerized model \"runs in parallel\" to the real facility, enabling behavior simulation, fault prediction, and detection of tiny anomalies before they become a failure."}</p>
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        <div style={{padding:"10px 14px",background:P.blueS,borderRadius:8,borderInlineStart:`3px solid ${P.blue}`}}>
+          <div style={{fontSize:10,fontWeight:800,color:P.blue,marginBottom:3,textTransform:"uppercase"}}>{he?"מאיפה המושג?":"Where does it come from?"}</div>
+          <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"המושג מקורו בנאס\"א (שנות ה-60-70, \"תאומים\" פיזיים של חלליות לסימולציה קרקעית) והתפתח עם המהפכה התעשייתית הרביעית (Industry 4.0). כיום הוא יישום מבוסס בתעשיית הנפט והגז — חברות כמו Shell ו-BP מדווחות על הפחתת זמני השבתה ועלויות תחזוקה משמעותיות באמצעותו.":"The concept originated at NASA (1960s-70s, physical \"twins\" of spacecraft for ground simulation) and evolved with the Fourth Industrial Revolution (Industry 4.0). Today it is an established application in oil & gas — companies like Shell and BP report significant reductions in downtime and maintenance costs through it."}</p>
+        </div>
+        <div style={{padding:"10px 14px",background:P.greenS,borderRadius:8,borderInlineStart:`3px solid ${P.green}`}}>
+          <div style={{fontSize:10,fontWeight:800,color:P.green,marginBottom:3,textTransform:"uppercase"}}>{he?"הקשר לקטר":"Qatar connection"}</div>
+          <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"מרכז עיבוד הגז באוניברסיטת קטר (Qatar University Gas Processing Center) פיתח מחקר ייעודי על תאום דיגיטלי לזיהוי דליפות בזמן אמת בצנרת גז, במימון קרן המחקר הלאומית של קטר (QNRF). כלומר — הידע והמחקר קיימים במדינה עצמה.":"Qatar University's Gas Processing Center developed dedicated research on a digital twin for real-time leak detection in gas pipelines, funded by the Qatar National Research Fund (QNRF). In other words — the knowledge and research exist within the country itself."}</p>
+        </div>
+        <div style={{padding:"10px 14px",background:P.amberS,borderRadius:8,borderInlineStart:`3px solid ${P.amber}`}}>
+          <div style={{fontSize:10,fontWeight:800,color:P.amber,marginBottom:3,textTransform:"uppercase"}}>{he?"⚠️ הבהרה חשובה":"⚠️ Important clarification"}</div>
+          <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"הטכנולוגיה והמחקר מבוססים ומאומתים. עם זאת, היישום הספציפי של לקח זה לאירוע ברזאן הוא ניתוח הנדסי-מקצועי שלנו — ולא ממצא של ועדת חקירה רשמית. נכון לעכשיו, לא פורסם תחקיר רשמי שקבע כי תאום דיגיטלי היה מונע את האסון הספציפי הזה.":"The technology and research are established and verified. However, the specific application of this lesson to the Barzan incident is our engineering-professional analysis — not a finding of an official investigation committee. As of now, no official investigation has been published concluding that a digital twin would have prevented this specific disaster."}</p>
+        </div>
+      </div>
+    </div>
+  </div>
   <h3 className="sf" style={{fontSize:18,fontWeight:800,color:P.ink,marginBottom:12}}>{he?"אירועים מקבילים בהיסטוריה":"Historical Parallels"}</h3>
   <p style={{fontSize:12,color:P.muted,lineHeight:1.7,marginBottom:14}}>{he?"אסון ברזאן מצטרף לשרשרת אירועי פיצוץ ענן אדים ואסונות LNG שעיצבו את תורת הבטיחות התהליכית:":"The Barzan disaster joins a chain of vapor cloud explosions and LNG disasters that shaped process safety doctrine:"}</p>
   <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:12}}>
@@ -520,7 +546,26 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
   </div>
 </Sec>;}
 
-/* ═══ 12 DOCUMENT VIEWER ═══ */
+/* ═══ 12 INFOGRAPHIC ═══ */
+function Infographic({lang}:{lang:string}){const he=lang==="he";const[zoom,setZoom]=useState(false);const img=he?"/images/infographic-he.jpeg":"/images/infographic-en.jpeg";return<Sec id="infographic" num="12" title={he?"אינפוגרפיקה":"Infographic"} subtitle={he?"תקציר ויזואלי של רצף האירוע":"A visual summary of the event sequence"}>
+  {/* Clarification note about figures */}
+  <div className="cm" style={{padding:"12px 16px",borderInlineStart:`3px solid ${P.amber}`,background:P.amberS,marginBottom:16}}>
+    <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"⚠️ שימו לב: האינפוגרפיקה מציגה נתונים ראשוניים ממסמך התחקיר (12 הרוגים, 54 פצועים). הנתונים הרשמיים העדכניים, המופיעים בשאר האפליקציה, הם 13 הרוגים, 66 פצועים ו-18 נעדרים. אירוע חי ומתעדכן.":"⚠️ Note: the infographic shows preliminary figures from the investigation document (12 fatalities, 54 injuries). The current official figures, shown elsewhere in this app, are 13 fatalities, 66 injuries and 18 missing. A live, evolving event."}</p>
+  </div>
+  {/* The infographic image */}
+  <div className="cm" style={{padding:12,textAlign:"center",cursor:"zoom-in"}} onClick={()=>setZoom(true)}>
+    <img src={img} alt={he?"אינפוגרפיקה — כרונולוגיה של אסון הגז בברזאן":"Infographic — Anatomy of the Barzan gas disaster"} style={{width:"100%",maxWidth:560,borderRadius:8,display:"block",margin:"0 auto"}}/>
+    <p style={{fontSize:11,color:P.muted,marginTop:10}}>{he?"👆 לחצו על התמונה להגדלה":"👆 Tap the image to enlarge"}</p>
+  </div>
+  <p style={{fontSize:10,color:P.muted,marginTop:12,textAlign:"center"}}>{he?"האינפוגרפיקה מתחלפת אוטומטית לפי שפת הממשק (עברית/אנגלית).":"The infographic switches automatically by interface language (Hebrew/English)."}</p>
+  {/* Zoom lightbox */}
+  {zoom&&<div onClick={()=>setZoom(false)} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(0,0,0,0.9)",display:"flex",alignItems:"center",justifyContent:"center",padding:16,cursor:"zoom-out"}}>
+    <img src={img} alt="" style={{maxWidth:"100%",maxHeight:"100%",objectFit:"contain",borderRadius:8}}/>
+    <button onClick={()=>setZoom(false)} style={{position:"absolute",top:16,insetInlineEnd:16,width:40,height:40,borderRadius:"50%",border:"none",background:"rgba(255,255,255,0.15)",color:"#fff",fontSize:22,cursor:"pointer"}}>✕</button>
+  </div>}
+</Sec>;}
+
+/* ═══ 13 DOCUMENT VIEWER ═══ */
 function DocViewer({lang}:{lang:string}){const he=lang==="he";return<Sec id="document" num="12" title={he?"מסמך התחקיר המקורי":"Original Investigation Document"} subtitle={he?"דוח תחקיר הנדסי ומבצעי — לצפייה בלבד":"Engineering & operational investigation report — view only"}>
   <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:16}}>{he?"להלן מסמך התחקיר ההנדסי-מבצעי המקורי של אירוע הכשל התהליכי והפיצוץ במתקן ברזאן, המשמש כבסיס לאפליקציה זו. המסמך מוצג לצפייה בלבד.":"Below is the original engineering-operational investigation document of the process failure and explosion at the Barzan plant, serving as the basis for this application. The document is displayed for viewing only."}</p>
   <div className="cm" style={{padding:0,overflow:"hidden",background:"#525659"}}>
@@ -558,7 +603,7 @@ function Sources({lang}:{lang:string}){const he=lang==="he";const sr=[
 </Sec>;}
 
 /* ═══ VIEW COUNTER ═══ */
-function ViewCounter({lang}:{lang:string}){const he=lang==="he";const[v,setV]=useState<number|null>(null);useEffect(()=>{fetch('https://api.counterapi.dev/v1/barzan-gas-60sec/visits/up',{cache:'no-store'}).then(r=>r.json()).then(d=>setV(d.count||0)).catch(()=>{});},[]);if(v===null)return null;return<div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:10}}><span style={{fontSize:11,color:`#ffffff60`}}>👁️</span><span className="mn" style={{fontSize:12,fontWeight:700,color:P.gold}}>{v.toLocaleString()}</span><span style={{fontSize:10,color:`#ffffff50`}}>{he?"צפיות":"views"}</span></div>;}
+function ViewCounter({lang}:{lang:string}){const he=lang==="he";const[v,setV]=useState<number|null>(null);useEffect(()=>{let alive=true;const NS="60sec-hazmat",KEY="barzan-gas-explosion";const base="https://abacus.jasoncameron.dev";let counted=false;try{counted=localStorage.getItem("bz_counted")==="1";}catch{}const url=counted?`${base}/get/${NS}/${KEY}`:`${base}/hit/${NS}/${KEY}`;fetch(url).then(r=>r.json()).then(d=>{if(alive&&typeof d?.value==="number")setV(d.value);if(!counted){try{localStorage.setItem("bz_counted","1");}catch{}}}).catch(()=>{});return()=>{alive=false;};},[]);if(v===null)return null;return<div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:10}}><span style={{fontSize:11,color:`#ffffff60`}}>👁️</span><span className="mn" style={{fontSize:12,fontWeight:700,color:P.gold}}>{v.toLocaleString()}</span><span style={{fontSize:10,color:`#ffffff50`}}>{he?"צפיות":"views"}</span></div>;}
 
 /* ═══ FOOTER ═══ */
 function Footer({lang}:{lang:string}){const he=lang==="he";const URL="https://barzan-gas-explosion.vercel.app";const title=he?"60 שניות חומ\u05B4ס — אסון הגז בברזאן":"60 Seconds HazMat — The Barzan Gas Disaster";return<footer style={{borderTop:`1px solid ${P.gold}40`,padding:"36px 20px",background:P.ink,textAlign:"center"}}>
@@ -581,4 +626,4 @@ function Footer({lang}:{lang:string}){const he=lang==="he";const URL="https://ba
 </footer>;}
 
 /* ═══ MAIN ═══ */
-export default function Home(){const[lang,setLang]=useState(()=>{if(typeof window!=="undefined"){const p=new URLSearchParams(window.location.search).get("lang");if(p==="en"||p==="he")return p;}return"he";});return<div dir={lang==="he"?"rtl":"ltr"} className="has-btab"><ProgressBar/><Nav lang={lang} toggle={()=>setLang(l=>l==="he"?"en":"he")}/><Hero lang={lang}/><Summary lang={lang}/><Plant lang={lang}/><Process lang={lang}/><Timeline lang={lang}/><RootCause lang={lang}/><VCESim lang={lang}/><Plume lang={lang}/><Hazards lang={lang}/><Response lang={lang}/><Geo lang={lang}/><Lessons lang={lang}/><DocViewer lang={lang}/><Sources lang={lang}/><Footer lang={lang}/><BottomTabs lang={lang}/></div>;}
+export default function Home(){const[lang,setLang]=useState(()=>{if(typeof window!=="undefined"){const p=new URLSearchParams(window.location.search).get("lang");if(p==="en"||p==="he")return p;}return"he";});return<div dir={lang==="he"?"rtl":"ltr"} className="has-btab"><ProgressBar/><Nav lang={lang} toggle={()=>setLang(l=>l==="he"?"en":"he")}/><Hero lang={lang}/><Summary lang={lang}/><Plant lang={lang}/><Process lang={lang}/><Timeline lang={lang}/><RootCause lang={lang}/><VCESim lang={lang}/><Plume lang={lang}/><Hazards lang={lang}/><Response lang={lang}/><Geo lang={lang}/><Lessons lang={lang}/><Infographic lang={lang}/><DocViewer lang={lang}/><Sources lang={lang}/><Footer lang={lang}/><BottomTabs lang={lang}/></div>;}
