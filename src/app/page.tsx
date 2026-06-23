@@ -134,42 +134,87 @@ function PlantSchematic({lang}:{lang:string}){const he=lang==="he";return<div cl
 </div>;}
 
 /* ═══ 03 PRODUCTION PROCESS — interactive flow diagram ═══ */
-function Process({lang}:{lang:string}){const[sel,setSel]=useState<string|null>(null);const he=lang==="he";
+function Process({lang}:{lang:string}){const[sel,setSel]=useState(0);const he=lang==="he";
 const stages=[
-  {id:"inlet",ic:"📥",x:4,lb:he?"קליטה והפרדה":"Inlet & Separation",c:"#3b82f6",
-   d:he?"הגז הגולמי מהשדה הצפוני מגיע בלחץ גבוה. מפרידים תלת-פאזיים מפרידים גז, נוזלים (קונדנסט) ומים. כאן מתחילה רגישות הלחץ — כל שינוי פתאומי משפיע על כל המערכת במורד הזרם.":"Raw gas from the North Field arrives at high pressure. Three-phase separators split gas, liquids (condensate) and water. Pressure sensitivity begins here — any sudden change cascades downstream."},
-  {id:"amine",ic:"🧪",x:24,lb:he?"המתקה (Amine)":"Amine Sweetening",c:"#10b981",
-   d:he?"הגז ה\"חמוץ\" עובר במגדל ספיגה עם תמיסת אמין (MDEA). האמין סופג H₂S ו-CO₂ ויוצר \"גז מתוק\". ExxonMobil מספקת את טכנולוגיית Flexsorb SE+ המותקנת במתקני קטר. האמין ה\"עשיר\" עובר רגנרציה והגזים החומציים מועברים ליחידת Claus.":"The sour gas passes through an absorber with amine solution (MDEA). The amine absorbs H₂S and CO₂, producing \"sweet gas\". ExxonMobil's Flexsorb SE+ technology is installed in Qatar's plants. The rich amine is regenerated and acid gases sent to the Claus unit."},
-  {id:"claus",ic:"🔥",x:44,lb:he?"השבת גופרית (Claus)":"Sulfur Recovery (Claus)",c:"#f59e0b",
-   d:he?"תהליך Claus הופך את ה-H₂S לגופרית יסודית. שלב תרמי: שליש מה-H₂S נשרף ל-SO₂ בכבשן ב-1,000°C+. שלב קטליטי: H₂S + SO₂ → גופרית + מים. יעילות 95-97%, וגז שארית (Tail Gas) עובר טיפול נוסף. הגופרית נאגרת בבור גופרית.":"The Claus process converts H₂S to elemental sulfur. Thermal stage: one-third of H₂S burns to SO₂ in a furnace at 1,000°C+. Catalytic stage: H₂S + SO₂ → sulfur + water. 95-97% efficiency, with tail gas treated further. Sulfur is stored in a sulfur pit."},
-  {id:"frac",ic:"⚗️",x:64,lb:he?"הפרדת NGL":"NGL Fractionation",c:"#8b5cf6",
-   d:he?"הנוזלים הטבעיים (NGL) — אתאן, פרופאן, בוטאן — מופרדים בעמודות פרקציה בלחצים שונים. כל רכיב עובר עיבוי (התנזלות) בנקודת רתיחה אחרת. אלה הנוזלים שבלחץ גבוה התנדפו במהירות ויצרו את ענן האדים באירוע.":"Natural gas liquids (NGL) — ethane, propane, butane — are separated in fractionation columns at varying pressures. Each component condenses at a different boiling point. These are the liquids that, at high pressure, flashed rapidly to form the vapor cloud in the incident."},
-  {id:"comp",ic:"⚙️",x:84,lb:he?"דחיסה ושיווק":"Compression & Export",c:"#ef4444",
-   d:he?"הגז ה\"מתוק\" נדחס במדחסים רבי-עוצמה לקראת הזרמה לרשת. אזור המדחסים הוא צפוף בצנרת ובציוד בלחץ גבוה — בדיוק התנאי הנדרש ל-VCE. כאן התרחש מוקד האירוע.":"The sweet gas is compressed by high-power compressors for grid delivery. The compressor area is dense with high-pressure piping and equipment — precisely the condition required for a VCE. This is where the incident occurred."},
-];const active=stages.find(s=>s.id===sel);
-return<Sec id="process" num="03" title={he?"תהליך הייצור":"Production Process"} subtitle={he?"לחצו על שלב בתרשים הזרימה לפרטים מלאים":"Click a stage in the flow diagram for full details"} sidebar={active?<div className="cm" style={{padding:16,borderRight:`3px solid ${active.c}`}}><div style={{fontSize:24,marginBottom:6}}>{active.ic}</div><h4 className="sf" style={{fontSize:15,fontWeight:800,marginBottom:8,color:active.c}}>{active.lb}</h4><p style={{fontSize:12,color:P.steel,lineHeight:1.8}}>{active.d}</p></div>:<SB color="gold" title={he?"👆 אינטראקטיבי":"👆 Interactive"}><p>{he?"עמדו או לחצו על שלב בתרשים כדי לראות הסבר על התהליך, הכימיה, והקשר לאירוע הכשל.":"Hover or click a stage to see the process, chemistry, and connection to the failure event."}</p></SB>}>
-  {/* Interactive flow diagram */}
-  <div className="cm" style={{padding:"24px 16px",background:"linear-gradient(135deg,#fafaf8,#f5f0e8)",marginBottom:14}}>
-    <svg viewBox="0 0 100 44" style={{width:"100%"}}>
-      {/* connecting flow line */}
-      <line x1="8" y1="18" x2="92" y2="18" stroke={`${P.gold}40`} strokeWidth="0.6"/>
-      {stages.map((s,i)=>{const on=sel===s.id;return<g key={s.id} style={{cursor:"pointer"}} onMouseEnter={()=>setSel(s.id)} onClick={()=>setSel(on?null:s.id)}>
-        {/* connector arrow */}
-        {i<stages.length-1&&<line x1={s.x+13} y1="18" x2={s.x+20} y2="18" stroke={P.gold} strokeWidth="0.8" strokeDasharray="2 2" className="flow-arrow"/>}
-        {/* node */}
-        <rect x={s.x} y="10" width="13" height="16" rx="1.5" fill={on?s.c:`${s.c}20`} stroke={s.c} strokeWidth={on?0.9:0.5} style={{transition:"all 0.2s"}}/>
-        <text x={s.x+6.5} y="20" textAnchor="middle" fontSize="6">{s.ic}</text>
-        {/* gas particles flowing (animated) */}
-        {on&&[0,1,2].map(p=><circle key={p} cx={s.x+2+p*4} cy="6" r="0.7" fill={s.c} style={{animation:`gasRise ${1.5+p*0.3}s ease-out infinite`,animationDelay:`${p*0.3}s`}}/>)}
-        <text x={s.x+6.5} y="32" textAnchor="middle" fill={on?s.c:P.muted} fontSize="2.6" fontWeight={on?"bold":"normal"}>{s.lb}</text>
-      </g>;})}
-      {/* H2S danger tag on amine+claus */}
-      <text x="34" y="40" textAnchor="middle" fill={P.red} fontSize="2.4" fontWeight="bold">⚠ H₂S {he?"זורם כאן":"flows here"}</text>
-    </svg>
+  {id:"inlet",ic:"📥",lb:he?"קליטה והפרדה":"Inlet & Separation",c:"#3b82f6",
+   d:he?"הגז הגולמי מהשדה הצפוני מגיע בלחץ גבוה. מפרידים תלת-פאזיים מפרידים את הזרם לשלושה: גז, נוזלים (קונדנסט) ומים. כאן מתחילה רגישות הלחץ — כל שינוי פתאומי משפיע על כל המערכת במורד הזרם.":"Raw gas from the North Field arrives at high pressure. Three-phase separators split the stream into three: gas, liquids (condensate) and water. Pressure sensitivity begins here — any sudden change cascades downstream.",
+   reactions:null,
+   params:[[he?"לחץ כניסה":"Inlet pressure","~70-100 bar"],[he?"הפרדה":"Separation",he?"3 פאזות":"3-phase"],[he?"מכיל":"Contains","CH₄, NGL, H₂S, CO₂, H₂O"]],
+   link:he?"⚠️ \"הלם גז\" (Gas Hammer) בשלב הזה — גל לחץ פתאומי בהזרמה מהירה — הוא שיזם את הכשל המבני.":"⚠️ A \"Gas Hammer\" at this stage — a sudden pressure surge during rapid flow — initiated the structural failure."},
+  {id:"amine",ic:"🧪",lb:he?"המתקה (Amine)":"Amine Sweetening",c:"#10b981",
+   d:he?"הגז ה\"חמוץ\" עובר במגדל ספיגה (Absorber) שבו זורמת תמיסת אמין (בדרך כלל MDEA בריכוז 30-50%). האמין סופג באופן סלקטיבי את ה-H₂S (ובמידה מסוימת CO₂) ויוצר \"גז מתוק\". ExxonMobil מספקת את טכנולוגיית Flexsorb SE+ המותקנת במתקני קטר. האמין ה\"עשיר\" בגז חומצי מוזרם ליחידת רגנרציה (Stripper) שבה חימום משחרר את ה-H₂S בחזרה — והאמין ה\"רזה\" חוזר למחזור.":"The sour gas passes through an absorber where amine solution flows (typically MDEA at 30-50%). The amine selectively absorbs H₂S (and some CO₂), producing \"sweet gas\". ExxonMobil's Flexsorb SE+ technology is installed in Qatar's plants. The acid-gas-rich amine is sent to a regenerator (stripper) where heat releases the H₂S back — and the lean amine is recycled.",
+   reactions:[
+     {t:he?"ספיגה (במגדל, ~40°C)":"Absorption (~40°C)",eq:"R₂NH + H₂S ⇌ R₂NH₂⁺ + HS⁻"},
+     {t:he?"רגנרציה (בחימום, ~120°C)":"Regeneration (~120°C)",eq:"R₂NH₂⁺ + HS⁻ ⇌ R₂NH + H₂S↑"},
+   ],
+   params:[[he?"ממס":"Solvent","MDEA 30-50%"],[he?"יעד גז מתוק":"Sweet gas spec","<4 ppm H₂S"],[he?"תוצר":"Output",he?"גז אצל H₂S מרוכז":"Concentrated acid gas"]],
+   link:he?"כאן ה-H₂S נמצא בריכוז הגבוה ביותר במערכת — נקודה קריטית מבחינת רעילות.":"Here H₂S is at its highest concentration in the system — a critical point for toxicity."},
+  {id:"claus",ic:"🔥",lb:he?"השבת גופרית (Claus)":"Sulfur Recovery (Claus)",c:"#f59e0b",
+   d:he?"הגז החומצי המרוכז (H₂S) מגיע ליחידת Claus להמרה לגופרית יסודית. שלב תרמי: כשליש מה-H₂S נשרף בכבשן (מעל 850°C, ולרוב 1,000°C+) ל-SO₂. כ-60-70% מהגופרית כבר נוצרת כאן. שלב קטליטי: ה-H₂S שנותר מגיב עם ה-SO₂ על קטליזטור אלומינה (~250°C) ויוצר גופרית נוספת. יעילות כוללת 95-97%; גז השארית (Tail Gas) עובר טיפול נוסף. הגופרית הנוזלית נאגרת בבור גופרית.":"The concentrated acid gas (H₂S) enters the Claus unit for conversion to elemental sulfur. Thermal stage: about one-third of the H₂S burns in a furnace (above 850°C, often 1,000°C+) to SO₂. Some 60-70% of the sulfur already forms here. Catalytic stage: remaining H₂S reacts with the SO₂ over an alumina catalyst (~250°C) forming more sulfur. Overall efficiency 95-97%; tail gas is treated further. Liquid sulfur is stored in a sulfur pit.",
+   reactions:[
+     {t:he?"שלב תרמי (כבשן, חמצון ⅓)":"Thermal stage (furnace)",eq:"2 H₂S + 3 O₂ → 2 SO₂ + 2 H₂O   (ΔH = −518 kJ/mol)"},
+     {t:he?"שלב קטליטי (תגובת Claus)":"Catalytic (Claus reaction)",eq:"2 H₂S + SO₂ → 3 S + 2 H₂O"},
+     {t:he?"תגובה כוללת":"Overall reaction",eq:"2 H₂S + O₂ → 2 S + 2 H₂O   (ΔH = −1165.6 kJ/mol)"},
+   ],
+   params:[[he?"כבשן":"Furnace","850-1,000°C+"],[he?"יחס H₂S:SO₂":"H₂S:SO₂ ratio","2 : 1"],[he?"יעילות השבה":"Recovery","95-97%"],[he?"קטליזטור":"Catalyst",he?"אלומינה/טיטניה":"Alumina/Titania"]],
+   link:he?"תגובות אקסותרמיות בטמפרטורות קיצוניות — מקור הצתה פוטנציאלי וסיכון תרמי מובנה.":"Exothermic reactions at extreme temperatures — a potential ignition source and inherent thermal risk."},
+  {id:"frac",ic:"⚗️",lb:he?"הפרדת NGL":"NGL Fractionation",c:"#8b5cf6",
+   d:he?"הנוזלים הטבעיים (NGL) — אתאן (C₂), פרופאן (C₃) ובוטאן (C₄) — מופרדים בעמודות פרקציה (זיקוק) בלחצים וטמפרטורות שונים. כל רכיב עובר עיבוי (התנזלות) בנקודת רתיחה אחרת, ולכן ניתן להפריד אותם בשלבים. אלה בדיוק הנוזלים שבלחץ גבוה, בעת השחרור באירוע, עברו התאדות פתאומית (Flash) ויצרו את ענן האדים העצום.":"Natural gas liquids (NGL) — ethane (C₂), propane (C₃) and butane (C₄) — are separated in fractionation (distillation) columns at varying pressures and temperatures. Each component condenses at a different boiling point, allowing stepwise separation. These are exactly the liquids that, at high pressure, flash-vaporized upon release in the incident and formed the enormous vapor cloud.",
+   reactions:[
+     {t:he?"הפרדה פיזיקלית (ללא תגובה כימית)":"Physical separation (no reaction)",eq:he?"זיקוק לפי נקודת רתיחה: C₂ (−89°C) · C₃ (−42°C) · C₄ (−1°C)":"Distillation by boiling point: C₂ (−89°C) · C₃ (−42°C) · C₄ (−1°C)"},
+   ],
+   params:[[he?"רכיבים":"Components","C₂H₆, C₃H₈, C₄H₁₀"],[he?"תהליך":"Process",he?"זיקוק פרקציוני":"Fractional distillation"],[he?"סיכון":"Hazard",he?"Flash + BLEVE":"Flash + BLEVE"]],
+   link:he?"⚠️ ה-NGL כבד מהאוויר ובלחץ גבוה — בעת שחרור הוא יוצר נפח אדים עצום שמצטבר נמוך ומגיע לטווח הנפיצות.":"⚠️ NGL is heavier than air and at high pressure — upon release it creates a huge vapor volume that accumulates low and reaches the flammable range."},
+  {id:"comp",ic:"⚙️",lb:he?"דחיסה ושיווק":"Compression & Export",c:"#ef4444",
+   d:he?"הגז ה\"מתוק\" נדחס במדחסים רבי-עוצמה (Centrifugal Compressors) לקראת הזרמה לרשת החשמל וההתפלה. אזור המדחסים צפוף בצנרת, אוגנים וציוד בלחץ גבוה — בדיוק תנאי הכליאה (Congestion) הנדרשים להפיכת התלקחות לפיצוץ (VCE) ולא רק לשריפת הבזק. כאן התרחש מוקד האירוע.":"The sweet gas is compressed by high-power centrifugal compressors for delivery to the power and desalination grid. The compressor area is dense with piping, flanges and high-pressure equipment — precisely the confinement (congestion) conditions required to turn ignition into an explosion (VCE) rather than just a flash fire. This is where the incident occurred.",
+   reactions:null,
+   params:[[he?"סוג":"Type",he?"מדחס צנטריפוגלי":"Centrifugal"],[he?"מאפיין סיכון":"Risk feature",he?"צפיפות ציוד גבוהה":"High congestion"],[he?"יעד":"Destination",he?"רשת חשמל + התפלה":"Power + desalination"]],
+   link:he?"🔴 מוקד הפיצוץ. הצפיפות הגבוהה של הציוד היא שסיפקה את הכליאה שהפכה את הענן הדליק לגל הדף הרסני.":"🔴 The explosion focus. The high equipment congestion provided the confinement that turned the flammable cloud into a destructive blast wave."},
+];const s=stages[sel];
+return<Sec id="process" num="03" title={he?"תהליך הייצור":"Production Process"} subtitle={he?"לחצו על שלב לפרטים מלאים, כולל התגובות הכימיות":"Tap a stage for full details, including the chemical reactions"} sidebar={<>
+  <SB color="gold" title={he?"💡 שרשרת בלחץ גבוה":"💡 High-Pressure Chain"}><p>{he?"שרשרת הייצור היא רצף שלבים בלחץ גבוה, שכל אחד תלוי ביציבות הקודם. ה-H₂S — גז קטלני — נמצא במערכת מהקליטה ועד השבת הגופרית. שילוב של גז רעיל, נוזלים נדיפים ולחצים גבוהים הופך כל כשל לאירוע רב-סיכון.":"The production chain is a sequence of high-pressure stages, each dependent on the previous. H₂S — a lethal gas — is present from inlet through sulfur recovery. The combination of toxic gas, volatile liquids and high pressures turns any failure into a multi-hazard event."}</p></SB>
+  <SB color="amber" title={he?"זרימת התהליך":"Process Flow"}><p style={{fontSize:11,lineHeight:1.9}}>{he?"אסדה ← צנרת תת-ימית ← קליטה ← המתקה (הסרת H₂S) ← Claus (השבת גופרית) ← הפרדת NGL ← מדחסים ← גז מכירה":"Platform → subsea → inlet → sweetening (H₂S removal) → Claus → NGL fractionation → compressors → sales gas"}</p></SB>
+</>}>
+  {/* Clickable stage buttons — works on mobile */}
+  <div style={{display:"flex",gap:6,marginBottom:4,overflowX:"auto",paddingBottom:8}}>
+    {stages.map((st,i)=><button key={st.id} onClick={()=>setSel(i)} style={{flexShrink:0,display:"flex",flexDirection:"column",alignItems:"center",gap:4,padding:"10px 12px",borderRadius:10,border:sel===i?`2px solid ${st.c}`:`1px solid ${P.border}`,background:sel===i?`${st.c}12`:"#fff",cursor:"pointer",minWidth:78,transition:"all 0.2s"}}>
+      <span style={{fontSize:24}}>{st.ic}</span>
+      <span style={{fontSize:10,fontWeight:700,color:sel===i?st.c:P.muted,textAlign:"center",lineHeight:1.2}}>{st.lb}</span>
+    </button>)}
   </div>
-  <p style={{fontSize:12,color:P.steel,lineHeight:1.8,marginBottom:8}}>{he?"שרשרת הייצור היא רצף של שלבים בלחץ גבוה, שכל אחד מהם תלוי ביציבות הקודם. ה-H₂S — גז קטלני — נמצא במערכת מהקליטה ועד השבת הגופרית. שילוב של גז רעיל, נוזלים נדיפים ולחצים גבוהים הופך כל כשל ברצף הזה לאירוע רב-סיכון.":"The production chain is a sequence of high-pressure stages, each dependent on the stability of the previous. H₂S — a lethal gas — is present from inlet through sulfur recovery. The combination of toxic gas, volatile liquids and high pressures turns any failure in this chain into a multi-hazard event."}</p>
+  {/* Flow indicator */}
+  <div style={{display:"flex",alignItems:"center",gap:4,justifyContent:"center",marginBottom:16,flexWrap:"wrap"}}>
+    {stages.map((st,i)=><div key={i} style={{display:"flex",alignItems:"center",gap:4}}><div style={{width:8,height:8,borderRadius:"50%",background:sel===i?st.c:`${st.c}40`,transition:"all 0.2s"}}/>{i<stages.length-1&&<span style={{color:`${P.gold}80`,fontSize:11}}>{he?"←":"→"}</span>}</div>)}
+  </div>
+  {/* Expanded detail — opens directly here, visible on mobile */}
+  <div className="cm" style={{padding:18,borderTop:`4px solid ${s.c}`,animation:"fu 0.35s ease-out both"}}>
+    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
+      <div style={{width:48,height:48,borderRadius:12,background:`${s.c}15`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,flexShrink:0}}>{s.ic}</div>
+      <div><span className="mn" style={{fontSize:10,fontWeight:700,color:s.c}}>{he?`שלב ${sel+1} מתוך 5`:`Stage ${sel+1} of 5`}</span><h3 className="sf" style={{fontSize:19,fontWeight:800,color:P.ink,lineHeight:1.2}}>{s.lb}</h3></div>
+    </div>
+    <p style={{fontSize:13,color:P.steel,lineHeight:1.85,marginBottom:14}}>{s.d}</p>
+    {/* Chemical reactions box */}
+    {s.reactions&&<div style={{padding:14,background:"linear-gradient(135deg,#0c1222,#162040)",borderRadius:10,marginBottom:14}}>
+      <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:10}}><span style={{fontSize:15}}>⚗️</span><h4 style={{fontSize:11,fontWeight:800,color:P.gL,textTransform:"uppercase",letterSpacing:"0.05em"}}>{he?"התגובות הכימיות":"Chemical Reactions"}</h4></div>
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        {s.reactions.map((r,i)=><div key={i}>
+          <div style={{fontSize:10,color:`${P.gL}cc`,marginBottom:3}}>{r.t}</div>
+          <div className="mn" dir="ltr" style={{fontSize:13,fontWeight:700,color:"#fff",background:"rgba(255,255,255,0.06)",padding:"8px 12px",borderRadius:6,textAlign:"center",border:`1px solid ${s.c}40`,overflowX:"auto",whiteSpace:"nowrap"}}>{r.eq}</div>
+        </div>)}
+      </div>
+    </div>}
+    {/* Parameters */}
+    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(120px,1fr))",gap:8,marginBottom:14}}>
+      {s.params.map((p,i)=><div key={i} style={{padding:"8px 10px",background:P.cream,borderRadius:6}}><div style={{fontSize:9,fontWeight:700,color:P.muted,textTransform:"uppercase",marginBottom:2}}>{p[0]}</div><div className="mn" style={{fontSize:12,fontWeight:700,color:P.ink}} dir="ltr">{p[1]}</div></div>)}
+    </div>
+    {/* Link to incident */}
+    <div style={{padding:"10px 14px",background:s.c==="#ef4444"?P.redS:`${s.c}0d`,borderRadius:8,borderInlineStart:`3px solid ${s.c}`}}>
+      <p style={{fontSize:12,color:P.steel,lineHeight:1.6,fontWeight:500}}>{s.link}</p>
+    </div>
+  </div>
+  {/* Key metrics strip */}
   <div style={{display:"flex",gap:10,flexWrap:"wrap",marginTop:14}}>
-    {[[he?"כבשן Claus":"Claus furnace","1,000°C+"],[he?"יעילות השבה":"Recovery","95-97%"],[he?"גז מתוק (יעד)":"Sweet gas spec","<4 ppm H₂S"]].map(([l,v],i)=><div key={i} className="cm" style={{padding:"10px 14px",flex:"1 1 140px",textAlign:"center"}}><div className="sf mn" style={{fontSize:18,fontWeight:900,color:P.amber}}>{v}</div><div style={{fontSize:10,color:P.muted}}>{l}</div></div>)}
+    {[[he?"כבשן Claus":"Claus furnace","1,000°C+"],[he?"יעילות השבה":"Recovery","95-97%"],[he?"גז מתוק (יעד)":"Sweet gas spec","<4 ppm H₂S"]].map(([l,v],i)=><div key={i} className="cm" style={{padding:"10px 14px",flex:"1 1 140px",textAlign:"center"}}><div className="sf mn" style={{fontSize:18,fontWeight:900,color:P.amber}} dir="ltr">{v}</div><div style={{fontSize:10,color:P.muted}}>{l}</div></div>)}
   </div>
 </Sec>;}
 
