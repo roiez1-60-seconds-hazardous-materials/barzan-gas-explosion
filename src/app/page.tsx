@@ -948,3 +948,5 @@ function FacilityMap({lang}:{lang:string}){
 
 /* ═══ MAIN ═══ */
 export default function Home(){const[lang,setLang]=useState(()=>{if(typeof window!=="undefined"){const p=new URLSearchParams(window.location.search).get("lang");if(p==="en"||p==="he")return p;}return"he";});useReveal();const[fade,setFade]=useState(false);useEffect(()=>{setFade(true);const t=setTimeout(()=>setFade(false),280);return()=>clearTimeout(t);},[lang]);return<div dir={lang==="he"?"rtl":"ltr"} className="has-btab" style={{opacity:fade?0.4:1,transition:"opacity .28s ease"}}><ProgressBar/><Nav lang={lang} toggle={()=>setLang(l=>l==="he"?"en":"he")}/><Hero lang={lang}/><Summary lang={lang}/><Plant lang={lang}/><FacilityMap lang={lang}/><Process lang={lang}/><Timeline lang={lang}/><RootCause lang={lang}/><VCESim lang={lang}/><Plume lang={lang}/><Hazards lang={lang}/><Response lang={lang}/><Geo lang={lang}/><Lessons lang={lang}/><Infographic lang={lang}/><DocViewer lang={lang}/><Sources lang={lang}/><Footer lang={lang}/><BottomTabs lang={lang}/></div>;}
+
+// build: redeploy 2026-06-23T21:40:04Z
