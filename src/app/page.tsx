@@ -9,10 +9,10 @@ const P = {
   flame:"#ff6b00",muted:"#64748b",border:"#e2e0d8",white:"#ffffff"
 };
 
-const sIDs=["home","summary","plant","process","timeline","rootcause","vce","plume","hazmat","response","geo","lessons","infographic","document","sources"];
-const sHe=["ראשי","תקציר","המתקן","תהליך הייצור","ציר זמן","שרשרת הכשל","הדמיית VCE","פיזור הענן","חומרים מסוכנים","מענה חומ״ס","רקע גאופוליטי","לקחים ותובנות","אינפוגרפיקה","המסמך","מקורות"];
-const sEn=["Home","Summary","The Plant","Process","Timeline","Failure Chain","VCE Sim","Plume","Hazards","HazMat Response","Geopolitics","Lessons","Infographic","Document","Sources"];
-const sIcon=["🏠","📋","🏭","⚗️","🕐","⛓️","💥","☁️","☣️","🛡️","🌍","🎓","📊","📄","🔗"];
+const sIDs=["home","summary","plant","map","process","timeline","rootcause","vce","plume","hazmat","response","geo","lessons","infographic","document","sources"];
+const sHe=["ראשי","תקציר","המתקן","מפה","תהליך הייצור","ציר זמן","שרשרת הכשל","הדמיית VCE","פיזור הענן","חומרים מסוכנים","מענה חומ״ס","רקע גאופוליטי","לקחים ותובנות","אינפוגרפיקה","המסמך","מקורות"];
+const sEn=["Home","Summary","The Plant","Map","Process","Timeline","Failure Chain","VCE Sim","Plume","Hazards","HazMat Response","Geopolitics","Lessons","Infographic","Document","Sources"];
+const sIcon=["🏠","📋","🏭","🗺️","⚗️","🕐","⛓️","💥","☁️","☣️","🛡️","🌍","🎓","📊","📄","🔗"];
 
 /* ═══ PROGRESS BAR ═══ */
 function ProgressBar(){const[p,setP]=useState(0);useEffect(()=>{const fn=()=>{const h=document.documentElement.scrollHeight-window.innerHeight;setP(h>0?(window.scrollY/h)*100:0);};window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn);},[]);return<div style={{position:"fixed",top:0,left:0,right:0,zIndex:100,height:3,background:P.cream}}><div style={{height:"100%",width:`${p}%`,background:`linear-gradient(90deg,${P.gold},${P.gL})`,transition:"width 120ms"}}/></div>;}
@@ -21,7 +21,7 @@ function ProgressBar(){const[p,setP]=useState(0);useEffect(()=>{const fn=()=>{co
 function Nav({lang,toggle}:{lang:string;toggle:()=>void}){const[open,setOpen]=useState(false);const labels=lang==="he"?sHe:sEn;return<><nav className="nv"><div style={{maxWidth:1100,margin:"0 auto",padding:"0 16px",height:48,display:"flex",alignItems:"center",justifyContent:"space-between"}}><a href="#home" style={{display:"flex",alignItems:"center",gap:8,textDecoration:"none"}}><img src="/images/logo-60sec.png" alt="" style={{width:28,height:28,borderRadius:6}}/><span style={{fontSize:10,fontWeight:700,color:P.muted}}>{lang==="he"?"60 שניות חומ\"ס":"60 Sec HazMat"}</span></a><div className="hd-links" style={{display:"flex",gap:1,alignItems:"center"}}>{labels.map((s,i)=><a key={i} href={`#${sIDs[i]}`} style={{padding:"6px 7px",fontSize:10,color:P.muted,textDecoration:"none",borderRadius:4}}>{s}</a>)}<button onClick={toggle} className="mn" style={{padding:"5px 12px",fontSize:11,fontWeight:800,background:P.ink,color:P.gold,border:"none",borderRadius:4,cursor:"pointer",marginInlineStart:6}}>{lang==="he"?"EN":"עב"}</button></div><div style={{display:"flex",alignItems:"center",gap:8}}><button onClick={toggle} className="mn lang-btn" style={{padding:"5px 12px",fontSize:11,fontWeight:800,background:P.ink,color:P.gold,border:"none",borderRadius:4,cursor:"pointer"}}>{lang==="he"?"EN":"עב"}</button><button className="mob-btn" onClick={()=>setOpen(!open)} style={{display:"none",alignItems:"center",justifyContent:"center",background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:22}}>☰</button></div></div></nav>{open&&<div className="mob-menu" style={{position:"fixed",top:51,left:0,right:0,zIndex:89,background:P.white,borderBottom:`1px solid ${P.border}`,padding:8,boxShadow:"0 4px 16px rgba(0,0,0,0.08)",maxHeight:"70vh",overflowY:"auto"}}>{labels.map((s,i)=><a key={i} href={`#${sIDs[i]}`} onClick={()=>setOpen(false)} style={{display:"flex",alignItems:"center",gap:8,padding:"10px 16px",fontSize:13,color:P.steel,textDecoration:"none"}}><span>{sIcon[i]}</span>{s}</a>)}</div>}</>;}
 
 /* ═══ BOTTOM TAB BAR (mobile) ═══ */
-function BottomTabs({lang}:{lang:string}){const labels=lang==="he"?sHe:sEn;const keyTabs=[0,3,6,8,9];return<div className="btab"><div style={{display:"flex",width:"100%",justifyContent:"space-around",alignItems:"center",padding:"6px 0"}}>{keyTabs.map(i=><a key={i} href={`#${sIDs[i]}`} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,textDecoration:"none",color:P.gL,flex:1}}><span style={{fontSize:18}}>{sIcon[i]}</span><span style={{fontSize:8,fontWeight:600,color:`${P.gL}cc`}}>{labels[i]}</span></a>)}</div></div>;}
+function BottomTabs({lang}:{lang:string}){const labels=lang==="he"?sHe:sEn;const keyTabs=[0,2,7,9,10];return<div className="btab"><div style={{display:"flex",width:"100%",justifyContent:"space-around",alignItems:"center",padding:"6px 0"}}>{keyTabs.map(i=><a key={i} href={`#${sIDs[i]}`} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,textDecoration:"none",color:P.gL,flex:1}}><span style={{fontSize:18}}>{sIcon[i]}</span><span style={{fontSize:8,fontWeight:600,color:`${P.gL}cc`}}>{labels[i]}</span></a>)}</div></div>;}
 
 /* ═══ HERO with animated gas-fire background ═══ */
 function Hero({lang}:{lang:string}){const he=lang==="he";return<section id="home" className="mh" style={{paddingTop:80,paddingBottom:56,position:"relative"}}>
@@ -38,14 +38,14 @@ function Hero({lang}:{lang:string}){const he=lang==="he";return<section id="home
     <h2 className="sf au" style={{fontSize:"clamp(14px,2vw,20px)",fontWeight:400,color:`${P.gL}90`,marginBottom:16}}>{he?"כשל תהליכי ופיצוץ ענן אדים (VCE) במתקן הגז הטבעי, ראס לאפן — קטר":"Process Failure & Vapor Cloud Explosion (VCE) at the Natural Gas Plant, Ras Laffan — Qatar"}</h2>
     <div className="gr au" style={{margin:"0 auto 16px"}}/>
     <p className="au" style={{fontSize:13,color:`${P.white}cc`,maxWidth:580,margin:"0 auto 32px",lineHeight:1.8}}>{he?"תחקיר הנדסי-מבצעי: אנטומיית המתקן, תהליך הייצור, שרשרת הכשל, הדמיית האירוע, רעילות לפי ערכי PAC, ודוקטרינת מענה חומ\"ס":"Engineering-operational investigation: plant anatomy, production process, failure chain, event simulation, PAC-based toxicity, and HazMat response doctrine"}</p>
-    <div className="au" style={{display:"flex",justifyContent:"center",gap:"clamp(14px,5vw,44px)",flexWrap:"wrap",marginBottom:28}}>{[{n:"VCE",l:he?"מנגנון פיצוץ":"Blast Mechanism",c:P.flame},{n:"13",l:he?"הרוגים":"Fatalities",c:"#ef4444"},{n:"66",l:he?"פצועים":"Injured",c:P.gold},{n:"18",l:he?"נעדרים*":"Missing*",c:P.gL}].map((s,i)=><div key={i} style={{textAlign:"center"}}><div className="sf" style={{fontSize:"clamp(22px,3.5vw,36px)",fontWeight:900,color:s.c}}>{s.n}</div><div style={{fontSize:9,color:`${P.white}99`}}>{s.l}</div></div>)}</div>
+    <div className="au" style={{display:"flex",justifyContent:"center",gap:"clamp(14px,5vw,44px)",flexWrap:"wrap",marginBottom:28}}>{[{n:"VCE",l:he?"מנגנון פיצוץ":"Blast Mechanism",c:P.flame},{n:"13",l:he?"הרוגים":"Fatalities",c:"#ef4444"},{n:"66",l:he?"פצועים":"Injured",c:P.gold},{n:"18",l:he?"נעדרים*":"Missing*",c:P.gL}].map((s,i)=><div key={i} style={{textAlign:"center"}}><div className="sf" style={{fontSize:"clamp(22px,3.5vw,36px)",fontWeight:900,color:s.c}}><Counter value={s.n}/></div><div style={{fontSize:9,color:`${P.white}99`}}>{s.l}</div></div>)}</div>
     <p className="au" style={{fontSize:11,color:`${P.gL}cc`}}>{he?"רועי צוקרמן — מומחה לחומ״ס וטב״ק":"Roie Zukerman — HazMat & CBRN Expert"}</p>
     <p className="au mn" style={{fontSize:9,color:`${P.white}55`,marginTop:6}}>* {he?"מספרים ראשוניים ומתעדכנים":"Preliminary, updating figures"}</p>
   </div>
 </section>;}
 
 /* ═══ SECTION WRAPPER ═══ */
-function Sec({id,num,title,subtitle,children,sidebar,dark}:{id:string;num:string;title:string;subtitle?:string;children:React.ReactNode;sidebar?:React.ReactNode;dark?:boolean}){return<section id={id} style={{padding:"48px 20px",background:dark?P.cream:P.parch,borderBottom:`1px solid ${P.border}`,position:"relative"}}><div style={{maxWidth:1100,margin:"0 auto",position:"relative"}}><div className="sf" style={{position:"absolute",top:-14,right:-5,fontSize:80,fontWeight:900,color:`${P.gold}08`,lineHeight:1,userSelect:"none",pointerEvents:"none"}}>{num}</div><div style={{marginBottom:24,position:"relative",zIndex:1}}><div style={{display:"flex",alignItems:"baseline",gap:10,marginBottom:4}}><span className="mn" style={{fontSize:11,fontWeight:700,color:P.gold}}>{num}</span><h2 className="sf" style={{fontSize:"clamp(20px,3vw,30px)",fontWeight:800,color:P.ink}}>{title}</h2></div>{subtitle&&<p style={{fontSize:13,color:P.muted,marginTop:2}}>{subtitle}</p>}<div className="gr" style={{marginTop:10}}/></div><div style={{display:"flex",gap:28,flexWrap:"wrap"}}><div style={{flex:"1 1 500px",minWidth:0}}>{children}</div>{sidebar&&<aside style={{flex:"0 1 280px",display:"flex",flexDirection:"column",gap:14}}>{sidebar}</aside>}</div></div></section>;}
+function Sec({id,num,title,subtitle,children,sidebar,dark}:{id:string;num:string;title:string;subtitle?:string;children:React.ReactNode;sidebar?:React.ReactNode;dark?:boolean}){return<section id={id} style={{padding:"48px 20px",background:dark?P.cream:P.parch,borderBottom:`1px solid ${P.border}`,position:"relative",overflow:"hidden"}}><div className="sec-glow" style={{width:360,height:360,top:-70,insetInlineEnd:-90,background:dark?"radial-gradient(circle,rgba(255,107,0,0.11),transparent 70%)":"radial-gradient(circle,rgba(200,164,78,0.13),transparent 70%)",animation:"glowDrift 15s ease-in-out infinite"}}/><div className="sec-glow" style={{width:280,height:280,bottom:-60,insetInlineStart:-70,background:"radial-gradient(circle,rgba(200,164,78,0.09),transparent 70%)",animation:"glowDrift 19s ease-in-out infinite reverse"}}/><div style={{maxWidth:1100,margin:"0 auto",position:"relative",zIndex:1}}><div className="sf" style={{position:"absolute",top:-14,right:-5,fontSize:"clamp(64px,12vw,120px)",fontWeight:900,color:`${P.gold}0d`,lineHeight:1,userSelect:"none",pointerEvents:"none",animation:"numFloat 9s ease-in-out infinite"}}>{num}</div><div style={{marginBottom:24,position:"relative",zIndex:1}}><div style={{display:"flex",alignItems:"baseline",gap:10,marginBottom:4}}><span className="mn" style={{fontSize:11,fontWeight:700,color:P.gold}}>{num}</span><h2 className="sf" style={{fontSize:"clamp(20px,3vw,30px)",fontWeight:800,color:P.ink}}>{title}</h2></div>{subtitle&&<p style={{fontSize:13,color:P.muted,marginTop:2}}>{subtitle}</p>}<div className="gr" style={{marginTop:10}}/></div><div style={{display:"flex",gap:28,flexWrap:"wrap"}}><div style={{flex:"1 1 500px",minWidth:0}}>{children}</div>{sidebar&&<aside style={{flex:"0 1 280px",display:"flex",flexDirection:"column",gap:14}}>{sidebar}</aside>}</div></div></section>;}
 
 /* ═══ SIDEBAR BOX ═══ */
 function SB({color,title,children}:{color:string;title:string;children:React.ReactNode}){const cs:Record<string,[string,string]>={blue:[P.blueS,P.blue],red:[P.redS,P.red],amber:[P.amberS,P.amber],purple:[P.purpleS,P.purple],green:[P.greenS,P.green],gold:[`${P.gold}10`,P.gold],flame:["#fff4ec",P.flame]};const[bg,bc]=cs[color]||cs.blue;return<div className="cm" style={{padding:16,borderRight:`3px solid ${bc}`,background:bg}}><h4 style={{fontSize:10,fontWeight:800,color:bc,marginBottom:8,textTransform:"uppercase",letterSpacing:"0.05em"}}>{title}</h4><div style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{children}</div></div>;}
@@ -63,11 +63,11 @@ function Summary({lang}:{lang:string}){const he=lang==="he";return<Sec id="summa
   <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:10}}>
     <div className="cm" style={{padding:16,borderTop:`3px solid ${P.muted}`}}>
       <p style={{fontSize:10,fontWeight:800,color:P.muted,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:10}}>{he?"מסמך התחקיר":"Investigation Doc"}</p>
-      {[[he?"הרוגים מאושרים":"Confirmed dead","12"],[he?"פצועים":"Injured","54"],[he?"נעדרים":"Missing","6"]].map(([l,n],i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"6px 0",borderBottom:i<2?`1px solid ${P.border}40`:"none"}}><span style={{fontSize:12,color:P.steel}}>{l}</span><span className="sf mn" style={{fontSize:22,fontWeight:900,color:P.ink}}>{n}</span></div>)}
+      {[[he?"הרוגים מאושרים":"Confirmed dead","12"],[he?"פצועים":"Injured","54"],[he?"נעדרים":"Missing","6"]].map(([l,n],i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"6px 0",borderBottom:i<2?`1px solid ${P.border}40`:"none"}}><span style={{fontSize:12,color:P.steel}}>{l}</span><span className="sf mn" style={{fontSize:22,fontWeight:900,color:P.ink}}><Counter value={n}/></span></div>)}
     </div>
     <div className="cm" style={{padding:16,borderTop:`3px solid ${P.red}`}}>
       <p style={{fontSize:10,fontWeight:800,color:P.red,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:10}}>{he?"דיווח רשמי עדכני":"Current Official"}</p>
-      {[[he?"הרוגים":"Fatalities","13"],[he?"פצועים":"Injured","66"],[he?"נעדרים":"Missing","18"]].map(([l,n],i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"6px 0",borderBottom:i<2?`1px solid ${P.border}40`:"none"}}><span style={{fontSize:12,color:P.steel}}>{l}</span><span className="sf mn" style={{fontSize:22,fontWeight:900,color:P.red}}>{n}</span></div>)}
+      {[[he?"הרוגים":"Fatalities","13"],[he?"פצועים":"Injured","66"],[he?"נעדרים":"Missing","18"]].map(([l,n],i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",padding:"6px 0",borderBottom:i<2?`1px solid ${P.border}40`:"none"}}><span style={{fontSize:12,color:P.steel}}>{l}</span><span className="sf mn" style={{fontSize:22,fontWeight:900,color:P.red}}><Counter value={n}/></span></div>)}
     </div>
   </div>
   <p style={{fontSize:10,color:P.muted,lineHeight:1.6}}>{he?"מקור רשמי: משרד הפנים הקטרי, QatarEnergy ומנכ\"ל סעד אל-כעבי. ההרוגים — אזרחי הודו ופקיסטן. הסיווג הרשמי: תקלה טכנית בהתנעה, ללא חבלה. המספרים עשויים להשתנות עם התקדמות החיפושים.":"Official source: Qatari Interior Ministry, QatarEnergy & CEO Saad Al-Kaabi. Fatalities — Indian & Pakistani nationals. Official classification: technical malfunction during start-up, no sabotage. Figures may change as search operations continue."}</p>
@@ -171,7 +171,7 @@ const stages=[
    params:[[he?"סוג":"Type",he?"מדחס צנטריפוגלי":"Centrifugal"],[he?"מאפיין סיכון":"Risk feature",he?"צפיפות ציוד גבוהה":"High congestion"],[he?"יעד":"Destination",he?"רשת חשמל + התפלה":"Power + desalination"]],
    link:he?"🔴 מוקד הפיצוץ. הצפיפות הגבוהה של הציוד היא שסיפקה את הכליאה שהפכה את הענן הדליק לגל הדף הרסני.":"🔴 The explosion focus. The high equipment congestion provided the confinement that turned the flammable cloud into a destructive blast wave."},
 ];const s=stages[sel];
-return<Sec id="process" num="03" title={he?"תהליך הייצור":"Production Process"} subtitle={he?"לחצו על שלב לפרטים מלאים, כולל התגובות הכימיות":"Tap a stage for full details, including the chemical reactions"} sidebar={<>
+return<Sec id="process" num="04" title={he?"תהליך הייצור":"Production Process"} subtitle={he?"לחצו על שלב לפרטים מלאים, כולל התגובות הכימיות":"Tap a stage for full details, including the chemical reactions"} sidebar={<>
   <SB color="gold" title={he?"💡 שרשרת בלחץ גבוה":"💡 High-Pressure Chain"}><p>{he?"שרשרת הייצור היא רצף שלבים בלחץ גבוה, שכל אחד תלוי ביציבות הקודם. ה-H₂S — גז קטלני — נמצא במערכת מהקליטה ועד השבת הגופרית. שילוב של גז רעיל, נוזלים נדיפים ולחצים גבוהים הופך כל כשל לאירוע רב-סיכון.":"The production chain is a sequence of high-pressure stages, each dependent on the previous. H₂S — a lethal gas — is present from inlet through sulfur recovery. The combination of toxic gas, volatile liquids and high pressures turns any failure into a multi-hazard event."}</p></SB>
   <SB color="amber" title={he?"זרימת התהליך":"Process Flow"}><p style={{fontSize:11,lineHeight:1.9}}>{he?"אסדה ← צנרת תת-ימית ← קליטה ← המתקה (הסרת H₂S) ← Claus (השבת גופרית) ← הפרדת NGL ← מדחסים ← גז מכירה":"Platform → subsea → inlet → sweetening (H₂S removal) → Claus → NGL fractionation → compressors → sales gas"}</p></SB>
 </>}>
@@ -231,7 +231,7 @@ function Timeline({lang}:{lang:string}){const he=lang==="he";const ev=[
   {t:"T+min",h:he?"הצתה ופיצוץ נפחי (VCE): הענן נדד למקור הצתה באזור המדחסים ונחשף. גל הדף הרסני שיצר כדור אש":"Ignition & VCE: cloud drifted to an ignition source in the compressor area. Destructive blast wave creating a fireball",c:"#7f1d1d",r:true},
   {t:he?"מיידי":"Immediate",h:he?"הפעלת תוכנית החירום: כיבוי וקירור חשיפה, בלימת השריפה לפני התפשטות למתקנים שכנים, וחיפוש והצלה אחר הנעדרים":"Emergency plan activated: firefighting and exposure cooling, containing the fire before spread to neighboring facilities, and search & rescue for the missing",c:P.green},
   {t:he?"לאחר מכן":"Aftermath",h:he?"מאזן: 13 הרוגים (אזרחי הודו ופקיסטן), 66 פצועים, 18 נעדרים. הסיווג הרשמי: תקלה טכנית בהתנעה, ללא חבלה. קטר העריכה החזרת ~50% מכושר הייצור תוך חודש ו-80% תוך חודשיים":"Toll: 13 dead (Indian & Pakistani nationals), 66 injured, 18 missing. Official classification: technical malfunction during start-up, no sabotage. Qatar estimated restoring ~50% of capacity within a month and 80% within two months",c:P.steel},
-];return<Sec id="timeline" num="04" title={he?"ציר זמן: שחזור האירוע":"Timeline: Event Reconstruction"} subtitle={he?"מהשבתה ועד פיצוץ — רצף השלבים":"From shutdown to explosion — sequence of stages"} dark sidebar={<>
+];return<Sec id="timeline" num="05" title={he?"ציר זמן: שחזור האירוע":"Timeline: Event Reconstruction"} subtitle={he?"מהשבתה ועד פיצוץ — רצף השלבים":"From shutdown to explosion — sequence of stages"} dark sidebar={<>
   <SB color="flame" title={he?"\"הלם גז\"":"\"Gas Hammer\""}><p>{he?"גל לחץ פתאומי בצנרת, אנלוגי ל\"מכת מים\" (Water Hammer). בהזרמת גז מהירה למערכת ריקה — הלחץ הדינמי קורע נקודות חולשה שלא נמצאו בבדיקה.":"A sudden pressure surge in piping, analogous to \"water hammer\". When gas is rapidly introduced into an empty system, the dynamic pressure ruptures weak points undetected in inspection."}</p></SB>
   <SB color="red" title={he?"חלון הסיכון":"The Risk Window"}><p>{he?"מחקרי בטיחות תהליכית מראים: שלבי התנעה מחדש הם סטטיסטית מהמסוכנים ביותר — מערכות לא יציבות, איטומים שהתרופפו, ולחצים שאינם במצב יציב.":"Process safety research shows: restart phases are statistically among the most dangerous — unstable systems, loosened seals, and non-steady-state pressures."}</p></SB>
   <SB color="amber" title={he?"📌 הערה על הסדר":"📌 Note on Order"}><p>{he?"שלבי מרץ 2026 (השבתה ופגיעה) מוצגים תחילה כרקע, ואחריהם רצף האירוע עצמו ב-21/6. ההשבתה לתחזוקה (12/2025) קדמה לכולם.":"The March 2026 stages (halt and strike) are shown first as background, followed by the event sequence itself on Jun 21. The maintenance shutdown (12/2025) preceded all of them."}</p></SB>
@@ -255,7 +255,7 @@ function RootCause({lang}:{lang:string}){const he=lang==="he";const[open,setOpen
   {n:"3",ic:"💥",ti:he?"הצתה ופיצוץ נפחי":"Ignition & VCE",en:"VCE",c:"#7f1d1d",
    mech:he?"ענן הגז נדד עקב משטר הרוחות המקומי לעבר אזור המדחסים, שם נחשף למקור הצתה (משטח חם או ניצוץ חשמלי מציוד שאינו ממוגן פיצוץ - Explosion Proof). התוצאה הייתה דפלגרציה מהירה שיצרה גל הדף הרסני.":"The gas cloud drifted by the local wind regime toward the compressor area, where it was exposed to an ignition source (a hot surface or electrical spark from non-Explosion-Proof equipment). The result was a rapid deflagration creating a destructive blast wave.",
    fail:he?"כישלון מערכות הדילול או היעדר בידוד מקורות הצתה באזור הצפוף.":"Failure of dilution systems or lack of ignition-source isolation in the congested area."},
-];return<Sec id="rootcause" num="05" title={he?"שרשרת הכשל ההנדסי":"Engineering Failure Chain"} subtitle={he?"Root Cause Analysis — שלושה שלבים קריטיים":"Root Cause Analysis — three critical stages"} sidebar={<>
+];return<Sec id="rootcause" num="06" title={he?"שרשרת הכשל ההנדסי":"Engineering Failure Chain"} subtitle={he?"Root Cause Analysis — שלושה שלבים קריטיים":"Root Cause Analysis — three critical stages"} sidebar={<>
   <SB color="amber" title={he?"עקרון \"גבינה שוויצרית\"":"\"Swiss Cheese\" Model"}><p>{he?"אסון תעשייתי הוא לעולם לא כשל בודד, אלא יישור נדיר של מספר \"חורים\" במערכות ההגנה: בדיקה שהחמיצה, מגוף שלא נסגר בזמן, ומקור הצתה שלא בודד.":"An industrial disaster is never a single failure, but a rare alignment of several \"holes\" in defense systems: a missed inspection, a valve that didn't close in time, and an un-isolated ignition source."}</p></SB>
   <SB color="red" title={he?"3 כשלים מצטברים":"3 Cumulative Failures"}><p style={{marginBottom:6}}>① {he?"NDT שהחמיץ סדק":"NDT missed a fissure"}</p><p style={{marginBottom:6}}>② {he?"ESD איטי מדי":"ESD too slow"}</p><p>③ {he?"מקור הצתה לא מבודד":"Un-isolated ignition source"}</p></SB>
 </>}>
@@ -288,7 +288,7 @@ const phases=[
   {id:4,lb:he?"5. כדור אש":"5. Fireball",d:he?"כדור אש עולה — שריפת המלאי שנותר ונזק תרמי משני":"Rising fireball — combustion of remaining inventory and secondary thermal damage",c:"#ff4500"},
 ];
 useEffect(()=>{if(!playing)return;const t=setInterval(()=>setPhase(p=>(p+1)%5),2200);return()=>clearInterval(t);},[playing]);
-return<Sec id="vce" num="06" title={he?"הדמיית פיצוץ ענן האדים (VCE)":"Vapor Cloud Explosion (VCE) Simulation"} subtitle={he?"חמשת השלבים — אנימציה מתמשכת":"The five stages — continuous animation"} dark sidebar={<>
+return<Sec id="vce" num="07" title={he?"הדמיית פיצוץ ענן האדים (VCE)":"Vapor Cloud Explosion (VCE) Simulation"} subtitle={he?"חמשת השלבים — אנימציה מתמשכת":"The five stages — continuous animation"} dark sidebar={<>
   <SB color="flame" title={he?"מה זה VCE?":"What is a VCE?"}><p>{he?"Vapor Cloud Explosion — פיצוץ ענן אדים. שחרור גז דליק → ענן → הצתה באזור צפוף בציוד. הצפיפות (Congestion) היא הקריטריון שמבדיל פיצוץ (גל הדף) מ\"שריפת הבזק\" (Flash Fire) ללא גל הדף.":"Release of flammable gas → cloud → ignition in equipment-congested area. Congestion is the criterion separating an explosion (blast wave) from a \"flash fire\" without a blast wave."}</p></SB>
   <SB color="red" title={he?"BLEVE — סיכון משני":"BLEVE — Secondary Risk"}><p>{he?"Boiling Liquid Expanding Vapor Explosion: אם להבות פוגעות במיכל גז מונזל תחת לחץ, הרתחת הנוזל הכלוא עלולה לקרוע את המיכל בפיצוץ אלים. סיכון מתמשך כל עוד יש זרימת דלק.":"Boiling Liquid Expanding Vapor Explosion: if flames impinge a pressurized liquefied-gas vessel, the boiling confined liquid can rupture the vessel in a violent explosion. An ongoing risk while fuel flows."}</p></SB>
 </>}>
@@ -361,7 +361,7 @@ return<Sec id="vce" num="06" title={he?"הדמיית פיצוץ ענן האדי�
 </Sec>;}
 
 /* ═══ 07 PLUME MODELING — animated dispersion with PAC zones ═══ */
-function Plume({lang}:{lang:string}){const he=lang==="he";const[wind,setWind]=useState(3);return<Sec id="plume" num="07" title={he?"מודל פיזור הענן":"Plume Dispersion Model"} subtitle={he?"פיזור גז רעיל (H₂S) ואזורי PAC":"Toxic gas (H₂S) dispersion and PAC zones"} sidebar={<>
+function Plume({lang}:{lang:string}){const he=lang==="he";const[wind,setWind]=useState(3);return<Sec id="plume" num="08" title={he?"מודל פיזור הענן":"Plume Dispersion Model"} subtitle={he?"פיזור גז רעיל (H₂S) ואזורי PAC":"Toxic gas (H₂S) dispersion and PAC zones"} sidebar={<>
   <SB color="purple" title={he?"מהו מודל פיזור?":"What is a Plume Model?"}><p>{he?"מודל דיספרסיה (כמו ALOHA) מחשב את תנועת ענן הגז לפי מהירות וכיוון הרוח, יציבות אטמוספירית, וקצב הפליטה. התוצאה: \"אזורי איום\" מדורגים לפי ריכוז.":"A dispersion model (like ALOHA) computes gas-cloud movement by wind speed/direction, atmospheric stability, and release rate. The output: \"threat zones\" graded by concentration."}</p></SB>
   <SB color="red" title={he?"שילוב סיכונים":"Combined Hazards"}><p>{he?"בברזאן הסיכון כפול: גם רעילות (H₂S) וגם נפיצות (מתאן/NGL). מודל הפיזור מנחה הן את אזור הפינוי הרעיל והן את גבול הסיכון הנפיץ.":"At Barzan the risk is dual: both toxicity (H₂S) and flammability (methane/NGL). The plume model guides both the toxic evacuation zone and the flammable hazard boundary."}</p></SB>
 </>}>
@@ -411,7 +411,7 @@ const mats:Record<string,any>={
     pac:[{l:"PAC-1 (TEEL-1)",v:"65,000 ppm",d:he?"דחיקת חמצן ל-19.5%":"O₂ down to 19.5%",c:"#fbbf24"},{l:"PAC-2 (TEEL-2)",v:"230,000 ppm",d:he?"דחיקת חמצן ל-16%":"O₂ down to 16%",c:"#f59e0b"},{l:"PAC-3 (TEEL-3)",v:"400,000 ppm",d:he?"דחיקת חמצן ל-12.5%":"O₂ down to 12.5%",c:"#dc2626"}],
     note:he?"ערכי PAC (TEEL) הם הערכים הסטנדרטיים של ה-DOE למחניקים פשוטים, החלים על פרופאן/בוטאן. הסיכון הדומיננטי הוא נפיצות וסיכון BLEVE.":"PAC (TEEL) values are the DOE standard simple-asphyxiant values applying to propane/butane. The dominant hazard is flammability and BLEVE risk."},
 };const m=mats[sel];
-return<Sec id="hazmat" num="08" title={he?"החומרים המסוכנים":"The Hazardous Materials"} subtitle={he?"מאפיינים ורעילות לפי ערכי PAC (Protective Action Criteria)":"Properties and toxicity by PAC (Protective Action Criteria) values"} dark sidebar={<>
+return<Sec id="hazmat" num="09" title={he?"החומרים המסוכנים":"The Hazardous Materials"} subtitle={he?"מאפיינים ורעילות לפי ערכי PAC (Protective Action Criteria)":"Properties and toxicity by PAC (Protective Action Criteria) values"} dark sidebar={<>
   <SB color="gold" title={he?"מהם ערכי PAC?":"What are PAC values?"}><p>{he?"Protective Action Criteria — קריטריונים לפעולה מגוננת מבית DOE. שלוש רמות התואמות חשיפת 60 דקות:":"Protective Action Criteria — protective-action thresholds from DOE. Three tiers corresponding to 60-minute exposure:"}</p><p style={{marginTop:6}}><b style={{color:"#fbbf24"}}>PAC-1</b> — {he?"אי-נוחות הפיכה":"reversible discomfort"}</p><p><b style={{color:"#f59e0b"}}>PAC-2</b> — {he?"פגיעה ביכולת מילוט":"escape-impairing"}</p><p><b style={{color:"#dc2626"}}>PAC-3</b> — {he?"מסכן חיים":"life-threatening"}</p><p style={{marginTop:6,fontSize:11,color:P.muted}}>{he?"היררכיה: AEGL → ERPG → TEEL":"Hierarchy: AEGL → ERPG → TEEL"}</p></SB>
   <SB color="red" title={he?"⚠️ הסכנה הכפולה":"⚠️ The Dual Threat"}><p>{he?"נוכחות ה-H₂S החמוץ בשלבים המוקדמים מחייבת היערכות מיוחדת: לא רק אירוע דליקות, אלא גם איום רעילות קטלני המגביל את גישת כוחות החירום ללא מנ\"פ.":"The sour H₂S presence in early stages requires special readiness: not just a fire event, but a lethal toxicity threat limiting responder access without SCBA."}</p></SB>
 </>}>
@@ -433,10 +433,10 @@ return<Sec id="hazmat" num="08" title={he?"החומרים המסוכנים":"The
     {/* PAC VALUES — the highlight */}
     <div style={{padding:16,background:"linear-gradient(135deg,#fef2f2,#fff7ed)",borderRadius:10,border:`1px solid ${P.red}20`}}>
       <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}><span style={{fontSize:18}}>📊</span><h4 style={{fontSize:13,fontWeight:800,color:P.ink}}>{he?"ערכי PAC — רעילות לחשיפת 60 דקות":"PAC Values — 60-minute exposure toxicity"}</h4></div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:8}}>
         {m.pac.map((p:any,i:number)=><div key={i} style={{padding:"12px 8px",background:"#fff",borderRadius:8,border:`2px solid ${p.c}`,textAlign:"center"}}>
-          <div style={{fontSize:10,fontWeight:800,color:p.c,marginBottom:4}}>{p.l}</div>
-          <div className="sf mn" style={{fontSize:18,fontWeight:900,color:P.ink,lineHeight:1.1}} dir="ltr">{p.v}</div>
+          <div style={{fontSize:"clamp(8.5px,2.3vw,10px)",fontWeight:800,color:p.c,marginBottom:4,lineHeight:1.2}}>{p.l}</div>
+          <div className="sf mn" style={{fontSize:"clamp(13px,3.4vw,18px)",fontWeight:900,color:P.ink,lineHeight:1.1,overflowWrap:"anywhere"}} dir="ltr">{p.v}</div>
           <div style={{fontSize:9,color:P.muted,marginTop:4,lineHeight:1.3}}>{p.d}</div>
         </div>)}
       </div>
@@ -460,7 +460,7 @@ function Response({lang}:{lang:string}){const he=lang==="he";const cards=[
    pts:he?["זהו אירוע שריפה ופיצוץ שבו הסיכון הדומיננטי הוא תרמי — קרינת חום, להבות וגל הדף. לכן המיגון הנכון הוא חליפת כיבוי (Bunker/Turnout) בשילוב מנ\"פ, ולא חליפה כימית. חליפת הגנה כימית מסוג Level B אינה עמידה בחום ועלולה להיכשל מול קרינה תרמית — היא שמורה לתרחיש של דליפת גז רעיל לא-מוצתת בלבד.","המנ\"פ נותן את ההגנה הנשימתית הנדרשת גם מפני H₂S שלא נשרף (כיסים כלואים) וגם מפני תוצרי בעירה (SO₂, פחמן חד-חמצני) — כלל הזהב: לא נכנסים ללא מנ\"פ ובן-זוג.","טיהור ושטיפה חיוניים ביציאה: ה-H₂S ותרכובות הגופרית (כולל SO₂ וגופרית יסודית) נספגים בחליפת הכיבוי ובציוד. נדרשת שטיפה רטובה יסודית של המיגון לפני הסרתו, כדי למנוע פליטה מושהית (Off-gassing) שתסכן את הלוחם עצמו ואת הצוות.","הסרת מיגון מבוקרת (Doffing) באזור נקי, בסדר פעולות מוגדר, תוך שמירה על המנ\"פ עד השלב האחרון. הציוד שספג גופרית מטופל ומנוקה בנפרד ואינו חוזר לשימוש לפני בדיקה."]:["This is a fire and explosion event where the dominant hazard is thermal — heat radiation, flames and blast wave. Therefore the correct PPE is structural firefighting gear (Bunker/Turnout) combined with SCBA, not a chemical suit. A Level B chemical suit is not heat-resistant and may fail under thermal radiation — it is reserved only for an un-ignited toxic gas release scenario.","SCBA provides the required respiratory protection both against unburned H₂S (confined pockets) and combustion products (SO₂, carbon monoxide) — golden rule: never enter without SCBA and a buddy.","Decontamination is essential on exit: H₂S and sulfur compounds (including SO₂ and elemental sulfur) are absorbed into the turnout gear and equipment. Thorough wet washing of the PPE is required before doffing, to prevent delayed off-gassing that would endanger the firefighter and the team.","Controlled doffing in a clean zone, in a defined sequence, keeping SCBA on until the final step. Sulfur-contaminated equipment is cleaned separately and not returned to service before inspection."]},
   {ic:"⚡",ti:he?"בקרת מקורות הצתה והשבתה":"Ignition Control & Shutdown",c:P.amber,
    pts:he?["וידוא שכל הציוד החשמלי באזור הסיכון תקין וממוגן פיצוץ (Explosion Proof). ניצוץ חשמלי בודד מציוד שאינו מתאים = הצתה מחודשת.","הפעלת רצף ההשבתה (ESD) המלא לבידוד הזנת הדלק. אי-סגירה מהירה מספקת של המגופים היא שהזינה את האירוע הראשוני.","אוטומציה של מגופי ESD: לוודא כי זמני התגובה של מגופי החירום מוגדרים לסגירה אוטומטית מלאה במקרה של נפילת לחץ פתאומית (Rate-of-Drop) ללא צורך באישור מפעיל אנושי."]:["Verify all electrical equipment in the risk zone is intact and Explosion-Proof. A single electrical spark from unsuitable equipment = re-ignition.","Activate the full Emergency Shutdown (ESD) sequence to isolate fuel feed. Insufficiently rapid valve closure fed the initial event.","ESD valve automation: ensure emergency-valve response times are configured for full automatic closure on a sudden pressure drop (Rate-of-Drop) without requiring human operator approval."]},
-];return<Sec id="response" num="09" title={he?"ניתוח המענה ודוקטרינת החומ\"ס":"Response Analysis & HazMat Doctrine"} subtitle={he?"ניהול האירוע על פי עקרונות מתקדמים של פיקוד ושליטה":"Event management by advanced command & control principles"} sidebar={<>
+];return<Sec id="response" num="10" title={he?"ניתוח המענה ודוקטרינת החומ\"ס":"Response Analysis & HazMat Doctrine"} subtitle={he?"ניהול האירוע על פי עקרונות מתקדמים של פיקוד ושליטה":"Event management by advanced command & control principles"} sidebar={<>
   <SB color="red" title={he?"כלל הזהב ל-H₂S":"H₂S Golden Rule"}><p>{he?"לעולם אין להיכנס לאזור H₂S ללא מנ\"פ ובלי בן-זוג (Buddy). קורבנות H₂S פולטים גז מבגדיהם ועורם — הם מהווים סכנה למחלצים. נדרשים טיהור ושטיפה לפני העברה לאמבולנס.":"Never enter an H₂S zone without SCBA and a buddy. H₂S victims off-gas from clothing and skin — they endanger rescuers. Decontamination required before ambulance transfer."}</p></SB>
   <SB color="blue" title={he?"איזה מיגון? תרמי":"Which PPE? Thermal"}><p style={{marginBottom:6}}>{he?"באירוע שריפה/פיצוץ הסיכון הוא תרמי — ולכן:":"In a fire/explosion event the hazard is thermal — therefore:"}</p><p style={{marginBottom:4}}><b>{he?"חליפת כיבוי + מנ\"פ":"Turnout gear + SCBA"}</b> — {he?"ההגנה הנכונה":"the correct choice"}</p><p style={{marginBottom:6}}><b>Level A/B</b> — {he?"חליפה כימית, לא עמידה בחום — רק לדליפה רעילה לא-מוצתת":"chemical suit, not heat-resistant — only for un-ignited toxic release"}</p><p>{he?"⚠️ לבישת Level B ליד שריפת גז מסוכנת — היא תיכשל מול קרינה תרמית.":"⚠️ Wearing Level B near a gas fire is dangerous — it fails under thermal radiation."}</p></SB>
 </>}>
@@ -474,7 +474,7 @@ function Response({lang}:{lang:string}){const he=lang==="he";const cards=[
 </Sec>;}
 
 /* ═══ 10 GEOPOLITICAL CONTEXT ═══ */
-function Geo({lang}:{lang:string}){const he=lang==="he";return<Sec id="geo" num="10" title={he?"רקע גאופוליטי":"Geopolitical Context"} subtitle={he?"מדוע המתקן היה בתהליך התנעה רגיש":"Why the plant was in a sensitive restart"} dark sidebar={<>
+function Geo({lang}:{lang:string}){const he=lang==="he";return<Sec id="geo" num="11" title={he?"רקע גאופוליטי":"Geopolitical Context"} subtitle={he?"מדוע המתקן היה בתהליך התנעה רגיש":"Why the plant was in a sensitive restart"} dark sidebar={<>
   <SB color="amber" title={he?"מצר הורמוז":"Strait of Hormuz"}><p>{he?"כמעט כל תוצרת ראס לאפן עוברת דרך מצר הורמוז. סגירתו בתקופת המלחמה שיתקה את היצוא הקטרי והאיצה את הלחץ להתנעה מחדש.":"Almost all Ras Laffan output passes through the Strait of Hormuz. Its closure during the war paralyzed Qatari exports and accelerated pressure for restart."}</p></SB>
   <SB color="red" title={he?"~20% מאספקת ה-LNG העולמית":"~20% of Global LNG Supply"}><p>{he?"ראס לאפן היא מרכז ה-LNG הגדול בעולם — כ-20% מאספקת הגז הטבעי הנוזלי (LNG) העולמית. הנזק ממתקפת מרץ והשבתת הייצור יצרו לחץ כלכלי כבד לחזור לפעולה — וכך נוצר חלון ההתנעה המסוכן.":"Ras Laffan is the world's largest LNG hub — about 20% of global LNG supply. The March strike damage and production halt created heavy economic pressure to resume — forming the dangerous restart window."}</p></SB>
 </>}>
@@ -500,7 +500,7 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
   {y:"2005",n:"Buncefield",l:"UK",d:he?"גלישת מיכל דלק יצרה ענן אדים ענק (>120,000 מ\"ר) שהתפוצץ. שינה את ההבנה כיצד ענני אדים נוצרים והתפשטו גם בשטח פתוח.":"Fuel tank overflow created a massive vapor cloud (>120,000 m²) that exploded. Changed understanding of how vapor clouds form and spread even in open terrain."},
   {y:"2004",n:"Skikda LNG",l:he?"אלג'יריה":"Algeria",d:he?"פיצוץ במתקן הנזלת LNG. דליפת פחמימנים קרים נשאבה למבער דוד קיטור — הצתה ופיצוץ. 27 הרוגים. לקח מרכזי על מרחקי בטיחות.":"Explosion at an LNG liquefaction plant. Cold hydrocarbon leak drawn into a boiler burner — ignition and explosion. 27 dead. Key lesson on safety distances."},
   {y:"1944",n:"Cleveland",l:"USA",d:he?"כשל מיכל אחסון LNG. דליפה לביוב העירוני, התאדות ופיצוץ. 130 הרוגים. אחד האסונות שעיצבו את תקני אחסון הגז המונזל.":"LNG storage tank failure. Leak into city sewers, vaporization and explosion. 130 dead. One of the disasters that shaped liquefied-gas storage standards."},
-];return<Sec id="lessons" num="11" title={he?"מסקנות ולקחים":"Conclusions & Lessons"} subtitle={he?"לקחים ראשוניים לתעשייה ולמערכי החירום":"Preliminary lessons for industry and emergency systems"} sidebar={<>
+];return<Sec id="lessons" num="12" title={he?"מסקנות ולקחים":"Conclusions & Lessons"} subtitle={he?"לקחים ראשוניים לתעשייה ולמערכי החירום":"Preliminary lessons for industry and emergency systems"} sidebar={<>
   <SB color="gold" title={he?"לקח-העל":"Meta-Lesson"}><p>{he?"כל שלושת הלקחים מצביעים על אותו עקרון: בשלב התנעה מחדש, ההגנה חייבת להיות אוטומטית ומקדימה — לא תלויה בתגובה אנושית בזמן אמת.":"All three lessons point to the same principle: in a restart phase, protection must be automatic and preemptive — not dependent on real-time human response."}</p></SB>
   <SB color="purple" title={he?"היסטוריה חוזרת":"History Repeats"}><p>{he?"מ-Cleveland 1944 ועד היום — אסונות גז חוזרים על אותם דפוסים: כליאה, מקור הצתה, ותגובת חירום איטית. הלקחים ידועים; היישום הוא האתגר.":"From Cleveland 1944 to today — gas disasters repeat the same patterns: confinement, ignition source, and slow emergency response. The lessons are known; implementation is the challenge."}</p></SB>
 </>}>
@@ -547,7 +547,7 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
 </Sec>;}
 
 /* ═══ 12 INFOGRAPHIC ═══ */
-function Infographic({lang}:{lang:string}){const he=lang==="he";const[zoom,setZoom]=useState(false);const img=he?"/images/infographic-he.jpeg":"/images/infographic-en.jpeg";return<Sec id="infographic" num="12" title={he?"אינפוגרפיקה":"Infographic"} subtitle={he?"תקציר ויזואלי של רצף האירוע":"A visual summary of the event sequence"}>
+function Infographic({lang}:{lang:string}){const he=lang==="he";const[zoom,setZoom]=useState(false);const img=he?"/images/infographic-he.jpeg":"/images/infographic-en.jpeg";return<Sec id="infographic" num="13" title={he?"אינפוגרפיקה":"Infographic"} subtitle={he?"תקציר ויזואלי של רצף האירוע":"A visual summary of the event sequence"}>
   {/* Clarification note about figures */}
   <div className="cm" style={{padding:"12px 16px",borderInlineStart:`3px solid ${P.amber}`,background:P.amberS,marginBottom:16}}>
     <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"⚠️ שימו לב: האינפוגרפיקה מציגה נתונים ראשוניים ממסמך התחקיר (12 הרוגים, 54 פצועים). הנתונים הרשמיים העדכניים, המופיעים בשאר האפליקציה, הם 13 הרוגים, 66 פצועים ו-18 נעדרים. אירוע חי ומתעדכן.":"⚠️ Note: the infographic shows preliminary figures from the investigation document (12 fatalities, 54 injuries). The current official figures, shown elsewhere in this app, are 13 fatalities, 66 injuries and 18 missing. A live, evolving event."}</p>
@@ -565,21 +565,132 @@ function Infographic({lang}:{lang:string}){const he=lang==="he";const[zoom,setZo
   </div>}
 </Sec>;}
 
-/* ═══ 13 DOCUMENT VIEWER ═══ */
-function DocViewer({lang}:{lang:string}){const he=lang==="he";return<Sec id="document" num="12" title={he?"מסמך התחקיר המקורי":"Original Investigation Document"} subtitle={he?"דוח תחקיר הנדסי ומבצעי — לצפייה בלבד":"Engineering & operational investigation report — view only"}>
-  <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:16}}>{he?"להלן מסמך התחקיר ההנדסי-מבצעי המקורי של אירוע הכשל התהליכי והפיצוץ במתקן ברזאן, המשמש כבסיס לאפליקציה זו. המסמך מוצג לצפייה בלבד.":"Below is the original engineering-operational investigation document of the process failure and explosion at the Barzan plant, serving as the basis for this application. The document is displayed for viewing only."}</p>
-  <div className="cm" style={{padding:0,overflow:"hidden",background:"#525659"}}>
-    <object data="/barzan-report.pdf#view=FitH" type="application/pdf" style={{width:"100%",height:"min(80vh,800px)",display:"block",border:"none"}}>
-      <div style={{padding:40,textAlign:"center",background:"#fff"}}>
-        <p style={{fontSize:14,color:P.steel,marginBottom:16}}>{he?"הדפדפן אינו מציג PDF מוטמע.":"Your browser cannot display embedded PDFs."}</p>
-        <a href="/barzan-report.pdf" target="_blank" rel="noopener noreferrer" className="ta" style={{display:"inline-block",padding:"12px 24px",borderRadius:8,textDecoration:"none",fontSize:14,fontWeight:700}}>{he?"📄 פתח את המסמך בכרטיסייה חדשה":"📄 Open document in new tab"}</a>
+/* ═══ 14 INVESTIGATION REPORT — native bilingual, same dossier design ═══ */
+function DocViewer({lang}:{lang:string}){
+  const he=lang==="he";
+  const H=(n:string,t:string)=> <div style={{display:"flex",alignItems:"baseline",gap:8,marginTop:22,marginBottom:8}}><span className="mn" style={{fontSize:11,fontWeight:700,color:P.gold}}>{n}</span><h3 className="sf" style={{fontSize:"clamp(16px,2.6vw,21px)",fontWeight:800,color:P.ink}}>{t}</h3></div>;
+  const para:React.CSSProperties={fontSize:13.5,color:P.steel,lineHeight:1.95,marginBottom:12};
+
+  const mats=[
+    {f:"CH\u2084",c:P.blue,he:["מתאן","המרכיב העיקרי בגז הטבעי (מעל 80%). גז דליק ביותר \u2014 גבול נפיצות תחתון (LEL) 5% ועליון (UEL) 15%."],en:["Methane","The primary component of natural gas (over 80%). Highly flammable \u2014 lower explosive limit (LEL) 5%, upper (UEL) 15%."]},
+    {f:"C\u2082\u2013C\u2084",c:P.amber,he:["נוזלי גז טבעי (NGL)","פרופאן, בוטאן וקונדנסטים. מצטברים באזורים נמוכים ויוצרים ענני אדים צפופים בקרבת הקרקע."],en:["Natural Gas Liquids (NGL)","Propane, butane and condensates. Accumulate in low-lying areas and form dense, ground-hugging vapor clouds."]},
+    {f:"H\u2082S",c:P.red,he:["מימן גופרי \u2014 \u201Dגז חמוץ\u201D","גז רעיל ביותר וקורוזיבי. משתק את עצב הריח מעל 100 ppm וגורם למוות מיידי מעל 500 ppm."],en:["Hydrogen Sulfide \u2014 \u201Dsour gas\u201D","Extremely toxic and corrosive. Paralyzes the olfactory nerve above 100 ppm; fatal almost instantly above 500 ppm."]},
+  ];
+
+  const stages=[
+    {n:"1",he:["פריצת המעטפת","Loss of Containment"],
+      mech_he:"הזרמת פחמימנים מהירה יצרה אפקט \u201Dהלם גז\u201D (Gas Hammer). סדק זעיר (Micro-fissure) שלא אותר ב-NDT לאחר השיקום כשל תחת עומס הלחץ וגרם לקריעת אוגן או קו צנרת ראשי.",
+      mech_en:"Rapid hydrocarbon introduction created a \u201DGas Hammer\u201D effect. A micro-fissure undetected by NDT after restoration failed under the pressure load, rupturing a flange or main pipe run.",
+      fail_he:"כשל או אי-דיוק במערך בדיקות הריתוך והאולטרסאונד (NDT).",
+      fail_en:"A gap or inaccuracy in the welding / ultrasonic inspection program (NDT)."},
+    {n:"2",he:["היווצרות ענן האדים","Vapor Cloud"],
+      mech_he:"גז מתאן ו-NGL בלחץ גבוה נפלטו בספיקה אדירה, התפשטו פתאומית (Flash) והתערבבו עם החמצן בטווח הנפיצות (LEL\u2013UEL).",
+      mech_en:"High-pressure methane and NGL released at enormous flow, flash-expanded and mixed with oxygen within the explosive range (LEL\u2013UEL).",
+      fail_he:"אי-סגירה מהירה מספקת של מגופי השבתת החירום (ESD) גרמה להמשך הזנת המלאי.",
+      fail_en:"Emergency-shutdown (ESD) valves did not close fast enough, allowing continued inventory feed."},
+    {n:"3",he:["הצתה ופיצוץ נפחי (VCE)","Ignition & VCE"],
+      mech_he:"ענן הגז נדד עקב משטר הרוחות לעבר אזור המדחסים ונחשף למקור הצתה (משטח חם או ניצוץ מציוד שאינו מוגן פיצוץ). דפלגרציה מהירה יצרה גל הדף הרסני.",
+      mech_en:"The cloud drifted with the wind regime toward the compressor area and met an ignition source (hot surface or spark from non-explosion-proof equipment). Rapid deflagration produced a destructive blast wave.",
+      fail_he:"כשל מערכות הדילול או היעדר בידוד מקורות הצתה באזור החם.",
+      fail_en:"Failure of dilution systems or absence of ignition-source isolation in the hot zone."},
+  ];
+
+  const lessons=[
+    {ic:"👁️",he:["תאומים דיגיטליים (Digital Twins)","הטמעת סימולציה מבוססת בינה מלאכותית שמצליבה נתוני SCADA בזמן אמת עם פרוטוקולי התנעה, כדי להתריע על חריגות לחץ זעירות לפני כשל מכני."],en:["Digital Twins","Deploy AI-based simulation that cross-references real-time SCADA with start-up protocols, flagging minute pressure anomalies before mechanical failure."]},
+    {ic:"🔬",he:["בדיקות NDT מלאות לאחר הדף","מתקן שספג פגיעה מבנית אינו יכול להסתפק בבדיקות מדגמיות \u2014 נדרשות בדיקות אל-הרס היקפיות (100% UT/RT) לכל אורך קווי הלחץ הגבוה לפני אישור הזרמה."],en:["Full NDT after blast damage","A facility that sustained structural damage cannot rely on sampling \u2014 full perimeter non-destructive testing (100% UT/RT) along all high-pressure lines is required before re-flow."]},
+    {ic:"⚙️",he:["אוטומציה של מגופי ESD","הגדרת סגירה אוטומטית מלאה בעת נפילת לחץ פתאומית (Rate-of-Drop) ללא צורך באישור מפעיל, כדי לצמצם את המלאי המשתחרר בדקות הראשונות."],en:["ESD valve automation","Configure fully automatic closure on a sudden pressure drop (Rate-of-Drop) without operator authorization, to minimize inventory released in the first minutes."]},
+  ];
+
+  return <Sec id="document" num="14" title={he?"דוח התחקיר":"Investigation Report"} subtitle={he?"דוח הנדסי-מבצעי מורחב \u2014 מתקן הגז ברזאן, קטר":"Expanded engineering-operational report \u2014 Barzan gas plant, Qatar"}>
+    {/* report masthead */}
+    <div className="cm" style={{padding:0,overflow:"hidden"}}>
+      <div style={{background:"linear-gradient(135deg,#0c1222,#162040 60%,#3a1a10)",padding:"22px 22px 18px",position:"relative"}}>
+        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at 80% 20%,rgba(255,107,0,0.12),transparent 60%)"}}/>
+        <div style={{position:"relative"}}>
+          <div className="mn" style={{display:"inline-block",border:`1px solid ${P.gold}55`,padding:"2px 12px",borderRadius:2,color:P.gold,fontSize:9,fontWeight:700,letterSpacing:"0.25em",marginBottom:12}}>[ {he?"לא מסווג":"UNCLASSIFIED"} ]</div>
+          <h3 className="sf" style={{fontSize:"clamp(18px,3vw,26px)",fontWeight:900,color:"#fff",lineHeight:1.25,marginBottom:6}}>{he?"דוח תחקיר הנדסי ומבצעי מורחב":"Expanded Engineering & Operational Investigation"}</h3>
+          <p style={{fontSize:13,color:`${P.gL}cc`,marginBottom:12}}>{he?"אירוע כשל תהליכי ופיצוץ במתקן הגז \u201Dברזאן\u201D (קטר)":"Process failure and explosion at the \u201DBarzan\u201D gas plant (Qatar)"}</p>
+          <div style={{display:"flex",gap:16,flexWrap:"wrap",fontSize:11,color:`${P.white}aa`}}>
+            <span><b style={{color:P.gold}}>{he?"אירוע":"Incident"}:</b> 21/06/2026</span>
+            <span><b style={{color:P.gold}}>{he?"הופק":"Issued"}:</b> 23/06/2026</span>
+            <span><b style={{color:P.gold}}>{he?"סטטוס":"Status"}:</b> {he?"חקירה פעילה":"Active investigation"}</span>
+          </div>
+        </div>
       </div>
-    </object>
-  </div>
-  <div style={{display:"flex",justifyContent:"center",marginTop:14}}>
-    <a href="/barzan-report.pdf" target="_blank" rel="noopener noreferrer" className="ti" style={{display:"inline-flex",alignItems:"center",gap:8,padding:"10px 20px",borderRadius:8,textDecoration:"none",fontSize:13,fontWeight:700,color:P.steel}}>{he?"📄 פתח במסך מלא":"📄 Open fullscreen"} ↗</a>
-  </div>
-</Sec>;}
+
+      <div style={{padding:"20px 22px"}}>
+        {/* 1. Executive Summary */}
+        {H("01",he?"תקציר מנהלים":"Executive Summary")}
+        <p style={para}>{he?"ב-21 ביוני 2026, במהלך שלב התנעה מחדש (Start-up) של מערכות הטיפול בגז במתקן \u201Dברזאן\u201D בקריית התעשייה ראס לאפן בקטר, אירע פיצוץ נפחי אדיר מסוג פיצוץ ענן אדים (VCE). האירוע הוביל לשריפת לחץ מסיבית, הרס תשתיתי נרחב באזור מדחסי הגז, ולנפגעים רבים בקרב סגל ההפעלה והקבלנים. הדוח מנתח את מאפייני המתקן, מנגנוני הכשל ההנדסיים, סיכוני החומרים, ותורת הלחימה שיושמה להכלה ובידוד הזירה.":"On 21 June 2026, during a restart (Start-up) of the gas treatment systems at the \u201DBarzan\u201D plant in Ras Laffan Industrial City, Qatar, a massive vapor cloud explosion (VCE) occurred. It caused a large-scale pressure fire, extensive structural destruction in the gas-compressor area, and numerous casualties among operating staff and contractors. This report analyzes the plant characteristics, the engineering failure mechanisms, the material hazards, and the firefighting doctrine applied to contain and isolate the scene."}</p>
+        <div style={{display:"flex",gap:"clamp(10px,4vw,28px)",flexWrap:"wrap",justifyContent:"center",padding:"14px 0",margin:"6px 0 4px",borderTop:`1px solid ${P.border}`,borderBottom:`1px solid ${P.border}`}}>
+          {[{n:"VCE",l:he?"מנגנון":"Mechanism",c:P.flame},{n:"13",l:he?"הרוגים":"Fatalities",c:"#ef4444"},{n:"66",l:he?"פצועים":"Injured",c:P.gold},{n:"18",l:he?"נעדרים":"Missing",c:P.steel}].map((x,i)=>(
+            <div key={i} style={{textAlign:"center",minWidth:0}}><div className="sf" style={{fontSize:"clamp(22px,4vw,34px)",fontWeight:900,color:x.c}}><Counter value={x.n}/></div><div style={{fontSize:10,color:P.muted}}>{x.l}</div></div>
+          ))}
+        </div>
+        <p style={{fontSize:10,color:P.muted,marginTop:8,lineHeight:1.6}}>{he?"ℹ️ נתונים רשמיים עדכניים (משרד הפנים הקטרי / QatarEnergy). מסמך התחקיר הראשוני נקב ב-12 הרוגים, 54 פצועים ו-6 נעדרים \u2014 המספרים מתעדכנים.":"ℹ️ Current official figures (Qatari Interior Ministry / QatarEnergy). The preliminary document cited 12 dead, 54 injured and 6 missing \u2014 figures are updating."}</p>
+
+        {/* 2. Materials */}
+        {H("02",he?"אפיון המתקן והחומרים המסוכנים":"Plant & Hazardous Materials")}
+        <p style={para}>{he?"מתקן ברזאן מטפל בגז גולמי מהשדה הצפוני (North Field) ומספק גז לרשת החשמל וההתפלה בקטר. בשונה ממתקני ייצוא ה-LNG הסמוכים, הוא מבצע הפרדה וזיקוק בלחצים גבוהים של מספר תרכובות פחמימניות וקונדנסטים נלווים:":"Barzan processes raw gas from the North Field and supplies Qatar\u2019s power and desalination grid. Unlike the adjacent LNG export trains, it performs high-pressure separation and fractionation of several hydrocarbon fractions and associated condensates:"}</p>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:10,marginBottom:12}}>
+          {mats.map((m,i)=>(
+            <div key={i} className="cm" style={{padding:14,borderTop:`3px solid ${m.c}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}><span className="mn" style={{fontSize:15,fontWeight:800,color:m.c}} dir="ltr">{m.f}</span><h4 style={{fontSize:13,fontWeight:800,color:P.ink}}>{he?m.he[0]:m.en[0]}</h4></div>
+              <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?m.he[1]:m.en[1]}</p>
+            </div>
+          ))}
+        </div>
+        <div className="pq">{he?"\u201Dנוכחות ה-H\u2082S בשלבים המוקדמים של ההפרדה הופכת כל דליפה לא רק לאירוע דליקות ונפיצות \u2014 אלא לשטח מורעל מיידי המגביל את גישת כוחות החירום ללא מיגון נשימתי ואטימה מלאה.\u201D":"\u201DThe presence of H\u2082S in the early separation stages makes any leak not merely a fire and explosion event \u2014 but an instantly toxic atmosphere restricting responder access without full respiratory protection and encapsulation.\u201D"}</div>
+
+        {/* 3. Root cause */}
+        {H("03",he?"כרונולוגיה ומנגנון הכשל (RCA)":"Chronology & Failure Mechanism (RCA)")}
+        <p style={para}><b style={{color:P.ink}}>{he?"א. רקע (מרץ\u2013יוני 2026): ":"a. Background (Mar\u2013Jun 2026): "}</b>{he?"בחודש מרץ 2026 הושבת המתקן בעקבות מתקפת כטב\u201Dמים אזורית שגרמה לנזק מבני לצנרת ולמדחסים. בחודשים שלאחר מכן בוצעו שיקום, החלפת מקטעי צנרת וריתוך מחדש.":"In March 2026 the plant shut down after a regional UAV strike that damaged piping and compressors. The following months saw restoration, pipe-section replacement and re-welding."}</p>
+        <p style={para}><b style={{color:P.ink}}>{he?"ב. כשל בהתנעה: ":"b. Start-up failure: "}</b>{he?"ב-21 ביוני החל סגל ההנדסה בהזרמת גז בלחץ גבוה לצורך ניסוי המערכות. שלב ההתנעה הוא מהמסוכנים בתעשייה התהליכית. המנגנון המשוער מורכב משלושה שלבים:":"On 21 June, engineering staff began feeding high-pressure gas to test the systems. The start-up phase is among the most dangerous in process industries. The presumed mechanism comprises three stages:"}</p>
+        <div style={{overflowX:"auto",marginBottom:6}}>
+          <table className="mt" style={{width:"100%",borderCollapse:"collapse",minWidth:520}}>
+            <thead><tr>
+              <th style={{textAlign:he?"right":"left",width:"22%"}}>{he?"השלב":"Stage"}</th>
+              <th style={{textAlign:he?"right":"left",width:"48%"}}>{he?"המנגנון הפיזיקלי / הנדסי":"Physical / engineering mechanism"}</th>
+              <th style={{textAlign:he?"right":"left",width:"30%"}}>{he?"כשל מערכתי נלווה":"Associated systemic failure"}</th>
+            </tr></thead>
+            <tbody>
+              {stages.map((st,i)=>(
+                <tr key={i}>
+                  <td><div style={{display:"flex",alignItems:"center",gap:6}}><span className="mn" style={{display:"inline-flex",width:18,height:18,borderRadius:"50%",alignItems:"center",justifyContent:"center",background:P.flame,color:"#fff",fontSize:10,fontWeight:800,flexShrink:0}}>{st.n}</span><b style={{fontSize:12,color:P.ink}}>{he?st.he[0]:st.he[1]}</b></div></td>
+                  <td style={{color:P.steel}}>{he?st.mech_he:st.mech_en}</td>
+                  <td style={{color:P.muted}}>{he?st.fail_he:st.fail_en}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Response */}
+        {H("04",he?"ניתוח המענה המבצעי (חומ\u201Dס)":"Operational Response (HazMat)")}
+        <p style={para}><b style={{color:P.ink}}>{he?"א. הכלה וקירור חשיפות: ":"a. Containment & exposure cooling: "}</b>{he?"כוחות הכיבוי יישמו את הכלל \u2014 אין לכבות שריפת גז בלחץ כל עוד זרימת הגז נמשכת. כיבוי הלהבה ללא עצירת המקור היה מוביל להצטברות מחודשת ולפיצוץ משני קטלני. במקום זאת: הופעלו תותחי מים קבועים ומערכות מתזים (Deluge) לקירור הציוד, קונסטרוקציות הפלדה ומצברי ה-NGL הסמוכים (למניעת כשל מבני או BLEVE); ובמקביל בודדו מקורות האנרגיה בשליטה מרחוק וסגירת מגופי ה-ESD, כך שהמלאי הכלוא בער באופן מבוקר (Burn-off) עד דעיכה.":"Firefighters applied the rule \u2014 never extinguish a pressurized gas fire while flow continues. Extinguishing without stopping the source would cause renewed accumulation and a far more lethal secondary explosion. Instead: fixed master streams and deluge systems cooled equipment, steel structures and the adjacent NGL spheres (to prevent structural failure or BLEVE); and energy sources were isolated by remote control and ESD-valve closure, letting the trapped inventory burn off in a controlled manner until decay."}</p>
+        <p style={para}><b style={{color:P.ink}}>{he?"ב. מיגון (PPE): ":"b. PPE: "}</b>{he?"בשלב הראשוני, עקב חשש מ-H\u2082S חופשי, הוגדר אזור הלחימה כאזור חם המחייב מיגון נשימתי ועורי מרבי. עם דעיכת הלהבות ומעבר לחיפוש וחילוץ (מ-22 ביוני) בוצעה הערכת סיכונים מחדש, והצוותים עברו לחליפות Level B עם מנ\u201Dפ \u2014 מאחר שהסיכון הדומיננטי כעת אינו ענן דליק מתפשט, אלא כיסים כלואים של גז רעיל (H\u2082S) בחללים שנוצרו מקריסת המבנים.":"Initially, owing to concern over free H\u2082S, the operating area was a hot zone requiring maximal respiratory and dermal protection. As flames decayed and the scene moved to search-and-rescue (from 22 June), a renewed risk assessment moved teams to Level B suits with SCBA \u2014 because the dominant risk was no longer a spreading flammable cloud, but trapped pockets of toxic gas (H\u2082S) in voids created by structural collapse."}</p>
+        <p style={para}><b style={{color:P.ink}}>{he?"ג. ניטור ומודל פיזור: ":"c. Monitoring & plume model: "}</b>{he?"מערך גלאי הגז ההיקפי (גלאים אלקטרוכימיים ואינפרא-אדום בקו-ראייה) נוטר ברציפות, ונתוני הרוח הוזנו למודל דיספרסיה. הממצאים הראו שקונטור הריכוז המסוכן לא חרג מגבולות אזור התעשייה \u2014 ולכן נמנע פינוי אוכלוסייה בדוחא ובסביבה.":"The perimeter detector array (electrochemical and open-path infrared) was continuously monitored, and wind data fed a dispersion model. Findings showed the hazardous-concentration contour did not exceed the industrial-zone boundary \u2014 so civilian evacuation in Doha and surroundings was avoided."}</p>
+
+        {/* 5. Lessons */}
+        {H("05",he?"מסקנות ולקחים ראשוניים":"Preliminary Conclusions & Lessons")}
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          {lessons.map((l,i)=>(
+            <div key={i} className="cm" style={{padding:14,display:"flex",gap:12,alignItems:"flex-start",borderInlineStart:`3px solid ${P.gold}`}}>
+              <span style={{fontSize:22,flexShrink:0}}>{l.ic}</span>
+              <div><h4 style={{fontSize:13,fontWeight:800,color:P.ink,marginBottom:3}}>{he?l.he[0]:l.en[0]}</h4><p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?l.he[1]:l.en[1]}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {/* original PDF access (Hebrew source document) */}
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginTop:16,flexWrap:"wrap"}}>
+      <span style={{fontSize:11,color:P.muted}}>{he?"המסמך המקורי (PDF, עברית):":"Original source document (PDF, Hebrew):"}</span>
+      <a href="/barzan-report.pdf" target="_blank" rel="noopener noreferrer" className="ti" style={{display:"inline-flex",alignItems:"center",gap:8,padding:"9px 18px",borderRadius:8,textDecoration:"none",fontSize:12,fontWeight:700,color:P.steel}}>📄 {he?"פתח את הדוח המקורי":"Open original report"} ↗</a>
+    </div>
+  </Sec>;
+}
 
 /* ═══ 13 SOURCES ═══ */
 function Sources({lang}:{lang:string}){const he=lang==="he";const sr=[
@@ -598,7 +709,7 @@ function Sources({lang}:{lang:string}){const he=lang==="he";const sr=[
   {n:"CCPS — VCE/BLEVE/Flash Fire Guidelines",c:he?"אקדמי":"Academic"},
   {n:"Mannan — Buncefield Lessons (Wiley)",c:he?"אקדמי":"Academic"},
   {n:"Chiyoda / Axens — Sulfur Recovery (Claus)",c:he?"תעשייה":"Industry"},
-];const cc:Record<string,[string,string]>={[he?"ממשלתי":"Govt"]:[P.greenS,P.green],[he?"חדשות":"News"]:[P.redS,P.red],[he?"תעשייה":"Industry"]:[P.blueS,P.blue],[he?"אקדמי":"Academic"]:[P.purpleS,P.purple],[he?"רשמי":"Official"]:[P.amberS,P.amber]};return<Sec id="sources" num="13" title={he?"מקורות":"Sources"} subtitle={he?"מבוסס על מקורות פתוחים בלבד":"Based on open sources only"} dark>{sr.map((s,i)=>{const[bg,c]=cc[s.c]||[P.cream,P.muted];return<div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:`1px solid ${P.border}30`}}><span style={{color:P.gold}}>🔗</span><span style={{flex:1,fontSize:13,color:P.steel}}>{s.n}</span><span style={{fontSize:9,fontWeight:700,padding:"2px 8px",borderRadius:3,background:bg,color:c}}>{s.c}</span></div>;})}
+];const cc:Record<string,[string,string]>={[he?"ממשלתי":"Govt"]:[P.greenS,P.green],[he?"חדשות":"News"]:[P.redS,P.red],[he?"תעשייה":"Industry"]:[P.blueS,P.blue],[he?"אקדמי":"Academic"]:[P.purpleS,P.purple],[he?"רשמי":"Official"]:[P.amberS,P.amber]};return<Sec id="sources" num="15" title={he?"מקורות":"Sources"} subtitle={he?"מבוסס על מקורות פתוחים בלבד":"Based on open sources only"} dark>{sr.map((s,i)=>{const[bg,c]=cc[s.c]||[P.cream,P.muted];return<div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"10px 0",borderBottom:`1px solid ${P.border}30`}}><span style={{color:P.gold}}>🔗</span><span style={{flex:1,fontSize:13,color:P.steel}}>{s.n}</span><span style={{fontSize:9,fontWeight:700,padding:"2px 8px",borderRadius:3,background:bg,color:c}}>{s.c}</span></div>;})}
   <p style={{fontSize:10,color:P.muted,marginTop:16,lineHeight:1.6}}>{he?"⚠️ אירוע חי ומתפתח. נתוני נפגעים, ממצאי תחקיר ופרטים טכניים עשויים להתעדכן. ערכי הרעילות (PAC/AEGL) מבוססים על מסדי הנתונים הרשמיים של EPA, ATSDR ו-DOE.":"⚠️ Live, evolving event. Casualty figures, investigation findings and technical details may update. Toxicity values (PAC/AEGL) are based on the official EPA, ATSDR and DOE databases."}</p>
 </Sec>;}
 
@@ -625,5 +736,215 @@ function Footer({lang}:{lang:string}){const he=lang==="he";const URL="https://ba
   </div>
 </footer>;}
 
+/* ═══ COUNT-UP NUMBER (animates 0→value when scrolled into view) ═══ */
+function Counter({value}:{value:string}){
+  const ref=useRef<HTMLSpanElement>(null);
+  const raw=String(value);
+  const num=parseFloat(raw.replace(/[^0-9.]/g,""));
+  const [disp,setDisp]=useState<string>(isNaN(num)?raw:"0");
+  useEffect(()=>{
+    if(isNaN(num)){setDisp(raw);return;}
+    const m=raw.match(/^([^0-9]*)([0-9.,]+)(.*)$/);
+    const pre=m?m[1]:"", suf=m?m[3]:"";
+    const reduce=typeof window!=="undefined"&&window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(reduce){setDisp(raw);return;}
+    const el=ref.current; if(!el){setDisp(raw);return;}
+    let started=false;
+    const run=()=>{
+      if(started)return; started=true;
+      const dur=1100, t0=performance.now();
+      const tick=(t:number)=>{
+        const p=Math.min(1,(t-t0)/dur);
+        const e=1-Math.pow(1-p,3);
+        const cur=num*e;
+        const str=Number.isInteger(num)?Math.round(cur).toLocaleString("en-US"):cur.toFixed(1);
+        setDisp(pre+str+suf);
+        if(p<1)requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting)run();});},{threshold:0.4});
+    io.observe(el);
+    return ()=>io.disconnect();
+  },[raw]);
+  return <span ref={ref}>{disp}</span>;
+}
+
+/* ═══ SCROLL-REVEAL (JS-gated; no-JS shows everything) ═══ */
+function useReveal(){
+  useEffect(()=>{
+    if(typeof window==="undefined")return;
+    const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.body.classList.add("reveal-on");
+    const secs=Array.from(document.querySelectorAll("section"));
+    if(reduce){secs.forEach(el=>el.classList.add("in-view"));return;}
+    const io=new IntersectionObserver(es=>{
+      es.forEach(en=>{if(en.isIntersecting)en.target.classList.add("in-view");});
+    },{threshold:0.12,rootMargin:"0px 0px -8% 0px"});
+    secs.forEach(el=>io.observe(el));
+    return ()=>io.disconnect();
+  },[]);
+}
+
+/* ═══ 03 FACILITY MAP — interactive Ras Laffan site plan + blast origin ═══ */
+function FacilityMap({lang}:{lang:string}){
+  const he=lang==="he";
+  const [sel,setSel]=useState(5);
+  // top-down units: x,y,w,h in a 0..200 / 0..150 canvas
+  const units=[
+    {id:0,x:18,y:78,w:30,h:20,c:"#3b82f6",icon:"⬇️",
+      he:["קליטה והפרדה ראשונית","Inlet / Reception"],
+      role_he:"קליטת הגז ה\u201Dחמוץ\u201D מהשדה הצפוני והפרדה ראשונית של נוזלים. כאן ריכוז ה-H\u2082S הגבוה ביותר.",
+      role_en:"Receives sour gas from the North Field and performs primary liquid separation. Highest H\u2082S concentration here."},
+    {id:1,x:54,y:78,w:30,h:20,c:"#10b981",icon:"🧪",
+      he:["המתקת אמינים","Amine Sweetening"],
+      role_he:"הסרת ה-H\u2082S וה-CO\u2082 בעזרת תמיסת אמינים. במעלה הזרם משלב זה הגז עדיין רעיל.",
+      role_en:"Removes H\u2082S and CO\u2082 with an amine solution. Upstream of this stage the gas is still toxic."},
+    {id:2,x:90,y:78,w:30,h:20,c:"#f59e0b",icon:"🔥",
+      he:["יחידת קלאוס (גופרית)","Claus Sulfur Unit"],
+      role_he:"שחזור גופרית מה-H\u2082S שהוסר (תגובת קלאוס). תוצר לוואי: גופרית מוצקה.",
+      role_en:"Recovers sulfur from the removed H\u2082S (Claus reaction). Byproduct: solid sulfur."},
+    {id:3,x:126,y:78,w:32,h:20,c:"#8b5cf6",icon:"⚗️",
+      he:["זיקוק NGL","NGL Fractionation"],
+      role_he:"הפרדת אתאן, גפ\u201Dמ וקונדנסט בלחץ גבוה. שחרור פתאומי כאן יוצר ענן אדים עצום.",
+      role_en:"High-pressure separation of ethane, LPG and condensate. A sudden release here forms a huge vapor cloud."},
+    {id:4,x:150,y:30,w:0,h:0,c:"#f59e0b",icon:"⛽",
+      he:["מצברי NGL (כדורי הורטון)","NGL Storage (Horton spheres)"],
+      role_he:"אחסון גז מונזל בכדורי לחץ. רגישים לאירוע BLEVE \u2014 קירורם היה עדיפות עליונה.",
+      role_en:"Liquefied-gas pressure spheres. Vulnerable to a BLEVE \u2014 cooling them was a top priority."},
+    {id:5,x:118,y:108,w:34,h:22,c:"#ef4444",icon:"💥",
+      he:["תחנת מדחסים \u2014 מוקד הפיצוץ","Compressor Station \u2014 Blast Origin"],
+      role_he:"מוקד ה-VCE: ענן הגז נדד לכאן, נחשף למקור הצתה (משטח חם / ניצוץ מציוד שאינו מוגן פיצוץ) והתפוצץ.",
+      role_en:"The VCE origin: the gas cloud drifted here, met an ignition source (hot surface / spark from non-explosion-proof equipment) and detonated."},
+    {id:6,x:22,y:116,w:30,h:18,c:"#64748b",icon:"🛰️",
+      he:["חדר בקרה ממוגן","Hardened Control Room"],
+      role_he:"מרחק בטוח מהיחידות. ממנו בוצעה שליטה מרחוק וסגירת מגופי ה-ESD הראשיים.",
+      role_en:"Set at a safe distance. Remote control and main ESD-valve shutdown were executed from here."},
+  ];
+  const su=units.find(u=>u.id===sel)!;
+  return <Sec id="map" num="03" title={he?"מפת המתקן והאסון":"Facility & Disaster Map"} subtitle={he?"תרשים אתר עילי של ראס לאפן ומוקד הפיצוץ":"Top-down site plan of Ras Laffan and the blast origin"} dark sidebar={<>
+    <SB color="gold" title={he?"איפה זה קרה?":"Where did it happen?"}><p>{he?"קריית התעשייה ראס לאפן בצפון-מזרח קטר, כ-80 ק\u201Dמ מדוחא \u2014 מרכז ה-LNG הגדול בעולם. מתקן ברזאן יושב בתוך המתחם.":"Ras Laffan Industrial City in north-east Qatar, ~80 km from Doha \u2014 the world\u2019s largest LNG hub. The Barzan plant sits within the complex."}</p></SB>
+    <SB color="red" title={he?"⚠️ מוקד הפיצוץ":"⚠️ Blast Origin"}><p>{he?"תחנת המדחסים. הקש על כל יחידה בתרשים כדי לראות את תפקידה ואת הרלוונטיות שלה לאירוע.":"The compressor station. Tap any unit on the plan to see its role and relevance to the event."}</p></SB>
+  </>}>
+    <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:14}}>{he?"להלן תרשים סכמטי (מבט-על) של מתחם המתקן: יחידות העיבוד, מאגרי הגז המונזל, חדר הבקרה הממוגן וטבעת גלאי הגז ההיקפית. הכוכב האדום מסמן את מוקד הפיצוץ. הקש על יחידה לפרטים.":"Below is a schematic top-down plan of the plant complex: the process units, liquefied-gas storage, the hardened control room and the perimeter gas-detector ring. The red star marks the blast origin. Tap a unit for detail."}</p>
+
+    {/* Qatar locator inset */}
+    <div className="cm" style={{padding:12,marginBottom:14,background:"linear-gradient(135deg,#0c1222,#162040)"}}>
+      <p style={{fontSize:10,fontWeight:700,color:P.gL,textAlign:"center",marginBottom:8,textTransform:"uppercase",letterSpacing:"0.12em"}}>{he?"מיקום \u2014 קטר":"Location \u2014 Qatar"}</p>
+      <svg viewBox="0 0 200 120" style={{width:"100%",maxWidth:340,display:"block",margin:"0 auto"}}>
+        <rect x="0" y="0" width="200" height="120" fill="#0b2540" opacity="0.5"/>
+        {/* Persian Gulf label */}
+        <text x="30" y="20" fill="#3b6ea5" fontSize="6" fontStyle="italic">{he?"המפרץ הפרסי":"Persian Gulf"}</text>
+        {/* Qatar peninsula (simplified thumb shape) */}
+        <path d="M96,18 C108,16 120,22 124,38 C128,54 126,72 118,90 C112,102 100,106 92,100 C86,95 88,82 86,72 C84,60 82,48 86,36 C89,26 90,20 96,18 Z" fill="#1f3a2e" stroke="#c8a44e" strokeWidth="1" opacity="0.92"/>
+        {/* Doha */}
+        <circle cx="118" cy="74" r="2.4" fill="#e8d5a0"/>
+        <text x="122" y="76" fill="#e8d5a0" fontSize="6">{he?"דוחא":"Doha"}</text>
+        {/* Ras Laffan (NE) with pulse */}
+        <circle cx="114" cy="34" r="6" fill="none" stroke="#ef4444" strokeWidth="0.8" style={{animation:"apulse 2.5s ease-in-out infinite"}}/>
+        <circle cx="114" cy="34" r="3" fill="#ef4444"/>
+        <text x="120" y="33" fill="#fca5a5" fontSize="6.5" fontWeight="bold">Ras Laffan</text>
+        <text x="120" y="40" fill="#fca5a5" fontSize="5">{he?"מתקן ברזאן":"Barzan plant"}</text>
+        {/* Saudi border hint */}
+        <line x1="86" y1="40" x2="78" y2="36" stroke="#3b6ea5" strokeWidth="0.6" strokeDasharray="2 2"/>
+        <text x="40" y="100" fill="#3b6ea5" fontSize="5">{he?"ערב הסעודית":"Saudi Arabia"}</text>
+      </svg>
+    </div>
+
+    {/* Facility schematic */}
+    <div className="cm" style={{padding:14,background:"linear-gradient(135deg,#0d1626,#0a1120)"}}>
+      <svg viewBox="0 0 200 150" style={{width:"100%",display:"block"}}>
+        {/* sea (north) + jetty */}
+        <rect x="0" y="0" width="200" height="18" fill="#13314f" opacity="0.7"/>
+        <text x="6" y="11" fill="#5b86b3" fontSize="5" fontStyle="italic">{he?"הים \u2014 צפון / מזח":"Sea \u2014 North / Jetty"}</text>
+        <rect x="150" y="14" width="5" height="14" fill="#334155"/>
+        <line x1="152.5" y1="18" x2="152.5" y2="78" stroke="#c8a44e" strokeWidth="0.8" strokeDasharray="3 3" className="flow-arrow"/>
+        {/* perimeter fence */}
+        <rect x="8" y="22" width="184" height="120" rx="3" fill="none" stroke="#475569" strokeWidth="0.8" strokeDasharray="4 3"/>
+        {/* perimeter gas detectors */}
+        {[[8,40],[8,80],[8,120],[100,142],[192,40],[192,80],[192,120],[60,22],[140,22]].map((p,i)=>(
+          <g key={i}>
+            <rect x={p[0]-2} y={p[1]-2} width="4" height="4" fill="#22d3ee" opacity="0.85"/>
+            <circle cx={p[0]} cy={p[1]} r="3" fill="none" stroke="#22d3ee" strokeWidth="0.4" opacity="0.5" style={{animation:`apulse ${3+i*0.3}s ease-in-out infinite`}}/>
+          </g>
+        ))}
+        <text x="11" y="38" fill="#22d3ee" fontSize="3.6">{he?"גלאי גז היקפי":"perimeter detectors"}</text>
+
+        {/* hazard zones from blast origin (compressor ~135,119) */}
+        {[{rx:78,ry:46,c:"#dc2626",o:0.10},{rx:52,ry:32,c:"#f59e0b",o:0.12},{rx:28,ry:18,c:"#fbbf24",o:0.16}].map((z,i)=>(
+          <ellipse key={i} cx="135" cy="119" rx={z.rx} ry={z.ry} fill={z.c} opacity={z.o} style={{animation:`cloudPulse ${3+i*0.5}s ease-in-out infinite`}}/>
+        ))}
+
+        {/* NGL storage spheres (Horton) */}
+        <g onClick={()=>setSel(4)} style={{cursor:"pointer"}}>
+          {[150,162,174].map((cx,i)=>(
+            <g key={i}>
+              <circle cx={cx} cy="34" r="6.5" fill={sel===4?"#f59e0b40":"#f59e0b20"} stroke="#f59e0b" strokeWidth={sel===4?"1.2":"0.7"}/>
+              <line x1={cx-3} y1="38" x2={cx-3} y2="42" stroke="#f59e0b" strokeWidth="0.6"/>
+              <line x1={cx+3} y1="38" x2={cx+3} y2="42" stroke="#f59e0b" strokeWidth="0.6"/>
+            </g>
+          ))}
+          <text x="162" y="52" textAnchor="middle" fill="#f59e0b" fontSize="4.4" fontWeight="bold">NGL</text>
+        </g>
+
+        {/* process units */}
+        {units.filter(u=>u.w>0).map(u=>{
+          const active=sel===u.id;
+          return <g key={u.id} onClick={()=>setSel(u.id)} style={{cursor:"pointer"}}>
+            <rect x={u.x} y={u.y} width={u.w} height={u.h} rx="2"
+              fill={`${u.c}${active?"40":"22"}`} stroke={u.c} strokeWidth={active?"1.4":"0.7"}
+              style={active?{filter:`drop-shadow(0 0 4px ${u.c})`}:undefined}/>
+            <text x={u.x+u.w/2} y={u.y+u.h/2+1.5} textAnchor="middle" fill={u.c} fontSize="4.2" fontWeight="bold">{he?u.he[0].split(" ")[0]:u.he[1].split(" ")[0]}</text>
+            {u.id===5&&<>
+              {/* blast star + shockwaves */}
+              <circle cx={u.x+u.w/2} cy={u.y+u.h/2} r="3" fill="none" stroke="#fca5a5" strokeWidth="0.6" style={{animation:"apulse 1.8s ease-in-out infinite"}}/>
+              <text x={u.x+u.w/2} y={u.y-2} textAnchor="middle" fontSize="7">💥</text>
+            </>}
+          </g>;
+        })}
+
+        {/* flow arrows between main train */}
+        {[[48,88,54],[84,88,90],[120,88,126]].map((a,i)=>(
+          <line key={i} x1={a[0]} y1={a[1]} x2={a[2]} y2={a[1]} stroke="#c8a44e" strokeWidth="0.9" strokeDasharray="2 2" className="flow-arrow"/>
+        ))}
+        {/* link fractionation -> compressor */}
+        <line x1="142" y1="98" x2="135" y2="108" stroke="#c8a44e" strokeWidth="0.9" strokeDasharray="2 2" className="flow-arrow"/>
+
+        {/* flare stack (corner) */}
+        <g>
+          <rect x="178" y="100" width="3" height="20" fill="#475569"/>
+          <path d="M179.5,100 q-3,-5 0,-9 q3,4 0,9 Z" fill="#ff6b00" style={{animation:"flicker 1.2s ease-in-out infinite",transformOrigin:"179px 100px"}}/>
+          <text x="179.5" y="126" textAnchor="middle" fill="#94a3b8" fontSize="3.6">{he?"לפיד":"Flare"}</text>
+        </g>
+
+        {/* wind vector NW->SE */}
+        <g transform="translate(20,30)">
+          <line x1="0" y1="0" x2="16" y2="10" stroke="#93c5fd" strokeWidth="1.2"/>
+          <polygon points="16,10 11,9 13,5" fill="#93c5fd"/>
+          <text x="0" y="-3" fill="#93c5fd" fontSize="4.5">{he?"רוח":"Wind"}</text>
+        </g>
+
+        {/* zone legend */}
+        {[{c:"#dc2626",l:he?"אזור חם":"Hot"},{c:"#f59e0b",l:he?"חמים":"Warm"},{c:"#fbbf24",l:he?"קר":"Cold"}].map((z,i)=>(
+          <g key={i} transform={`translate(${56+i*40},138)`}>
+            <rect width="5" height="5" fill={z.c} opacity="0.7"/>
+            <text x="7" y="4.4" fill="#cbd5e1" fontSize="4.2">{z.l}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+
+    {/* selected-unit info */}
+    <div className="cm" style={{marginTop:14,padding:16,borderInlineStart:`4px solid ${su.c}`}}>
+      <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+        <span style={{fontSize:24}}>{su.icon}</span>
+        <h4 className="sf" style={{fontSize:17,fontWeight:800,color:P.ink}}>{he?su.he[0]:su.he[1]}</h4>
+      </div>
+      <p style={{fontSize:13,color:P.steel,lineHeight:1.75}}>{he?su.role_he:su.role_en}</p>
+    </div>
+    <p style={{fontSize:10,color:P.muted,marginTop:12,lineHeight:1.6}}>{he?"🗺️ תרשים סכמטי להמחשה בלבד \u2014 אינו תכנית הנדסית מדויקת של המתקן. מיקומי היחידות ואזורי הסיכון הם המחשה של תורת הלחימה והפיזור.":"🗺️ Schematic illustration only \u2014 not an exact engineering plan. Unit positions and hazard zones illustrate the response doctrine and dispersion."}</p>
+  </Sec>;
+}
+
 /* ═══ MAIN ═══ */
-export default function Home(){const[lang,setLang]=useState(()=>{if(typeof window!=="undefined"){const p=new URLSearchParams(window.location.search).get("lang");if(p==="en"||p==="he")return p;}return"he";});return<div dir={lang==="he"?"rtl":"ltr"} className="has-btab"><ProgressBar/><Nav lang={lang} toggle={()=>setLang(l=>l==="he"?"en":"he")}/><Hero lang={lang}/><Summary lang={lang}/><Plant lang={lang}/><Process lang={lang}/><Timeline lang={lang}/><RootCause lang={lang}/><VCESim lang={lang}/><Plume lang={lang}/><Hazards lang={lang}/><Response lang={lang}/><Geo lang={lang}/><Lessons lang={lang}/><Infographic lang={lang}/><DocViewer lang={lang}/><Sources lang={lang}/><Footer lang={lang}/><BottomTabs lang={lang}/></div>;}
+export default function Home(){const[lang,setLang]=useState(()=>{if(typeof window!=="undefined"){const p=new URLSearchParams(window.location.search).get("lang");if(p==="en"||p==="he")return p;}return"he";});useReveal();const[fade,setFade]=useState(false);useEffect(()=>{setFade(true);const t=setTimeout(()=>setFade(false),280);return()=>clearTimeout(t);},[lang]);return<div dir={lang==="he"?"rtl":"ltr"} className="has-btab" style={{opacity:fade?0.4:1,transition:"opacity .28s ease"}}><ProgressBar/><Nav lang={lang} toggle={()=>setLang(l=>l==="he"?"en":"he")}/><Hero lang={lang}/><Summary lang={lang}/><Plant lang={lang}/><FacilityMap lang={lang}/><Process lang={lang}/><Timeline lang={lang}/><RootCause lang={lang}/><VCESim lang={lang}/><Plume lang={lang}/><Hazards lang={lang}/><Response lang={lang}/><Geo lang={lang}/><Lessons lang={lang}/><Infographic lang={lang}/><DocViewer lang={lang}/><Sources lang={lang}/><Footer lang={lang}/><BottomTabs lang={lang}/></div>;}

@@ -98,3 +98,38 @@ section { scroll-margin-top:56px; }
 /* Bottom tab bar (mobile) */
 .btab { position:fixed; bottom:0; left:0; right:0; z-index:95; background:rgba(12,18,34,0.96); backdrop-filter:blur(12px); border-top:1px solid rgba(200,164,78,0.2); display:none; }
 @media(max-width:768px){ .btab{ display:flex; } .has-btab{ padding-bottom:64px; } }
+
+/* ============================================================
+   EXPERIENTIAL UPGRADE — scroll reveal, section glow, motion
+   (JS-gated via body.reveal-on so no-JS shows everything)
+   ============================================================ */
+body.reveal-on section{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform;}
+body.reveal-on section.in-view{opacity:1;transform:none;}
+body.reveal-on section#home{opacity:1 !important;transform:none !important;}
+
+/* animated gold rule — grows when section enters view */
+.gr{transform-origin:right center;}
+[dir=ltr] .gr{transform-origin:left center;}
+body.reveal-on section .gr{transform:scaleX(0);transition:transform .8s .15s cubic-bezier(.2,.7,.2,1);}
+body.reveal-on section.in-view .gr{transform:scaleX(1);}
+
+/* ambient per-section glow */
+.sec-glow{position:absolute;border-radius:50%;opacity:0;pointer-events:none;z-index:0;transition:opacity 1.2s ease;}
+body.reveal-on section.in-view .sec-glow{opacity:1;}
+@keyframes glowDrift{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(18px,-14px) scale(1.12);}}
+
+/* giant section number float */
+@keyframes numFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* richer card edge-glow on hover */
+.cm{position:relative;}
+.cm::after{content:'';position:absolute;inset:0;border-radius:10px;box-shadow:0 0 0 1px transparent;transition:box-shadow .3s ease;pointer-events:none;}
+.cm:hover::after{box-shadow:0 0 0 1px rgba(200,164,78,0.35),0 0 22px rgba(200,164,78,0.12);}
+
+/* accessibility: honor reduced-motion */
+@media(prefers-reduced-motion:reduce){
+  body.reveal-on section{opacity:1 !important;transform:none !important;}
+  body.reveal-on section .gr{transform:none !important;}
+  .au{animation:none !important;}
+  *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;}
+}
