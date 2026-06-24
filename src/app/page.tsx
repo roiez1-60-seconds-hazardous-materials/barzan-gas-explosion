@@ -786,152 +786,189 @@ function useReveal(){
   },[]);
 }
 
-/* ═══ 03 FACILITY MAP — interactive Ras Laffan site plan + blast origin ═══ */
+/* ═══ 03 FACILITY MAP — real Qatar geography + clean facility schematic ═══ */
 function FacilityMap({lang}:{lang:string}){
   const he=lang==="he";
-  const [sel,setSel]=useState(5);
-  // top-down units: x,y,w,h in a 0..200 / 0..150 canvas
+  const [sel,setSel]=useState(4);
+  // accurate Qatar outline (simplified GeoJSON, projected) — viewBox 200 x 393.7
+  const QATAR="M102.3,8.0 L100.0,10.6 L100.0,15.2 L96.2,15.2 L95.4,18.8 L90.2,20.9 L89.5,28.4 L84.1,31.0 L74.2,31.7 L73.1,35.5 L64.4,37.1 L65.9,40.9 L64.6,46.3 L60.3,51.9 L56.4,51.2 L56.1,69.5 L50.8,78.2 L50.3,90.7 L45.2,90.3 L41.8,93.1 L39.1,99.9 L41.5,107.2 L37.3,110.4 L37.2,118.0 L38.3,127.4 L42.2,134.0 L39.6,148.4 L36.9,148.8 L35.0,142.0 L36.8,138.8 L36.3,129.7 L29.9,123.7 L25.6,130.1 L20.5,132.0 L17.4,135.9 L17.5,139.5 L22.4,142.6 L22.6,148.0 L13.2,152.2 L8.0,169.7 L10.6,198.7 L10.0,222.4 L13.0,235.2 L13.0,246.4 L16.7,250.1 L20.4,259.8 L17.5,264.3 L16.5,272.8 L21.9,278.7 L30.6,294.3 L29.9,307.8 L32.7,313.7 L29.7,320.8 L22.3,324.9 L46.0,368.6 L54.3,376.2 L78.7,385.7 L119.2,377.6 L129.8,363.8 L134.6,362.1 L137.3,351.4 L146.3,348.5 L163.0,301.4 L168.6,296.6 L185.7,268.8 L191.5,264.3 L190.4,259.7 L185.2,257.2 L185.2,228.3 L182.6,219.8 L186.7,214.9 L183.3,202.0 L175.9,197.3 L177.0,188.7 L174.1,185.1 L175.6,181.8 L172.9,177.3 L169.1,175.4 L166.2,162.7 L162.0,162.3 L157.0,157.4 L160.7,145.8 L159.8,138.9 L167.5,136.3 L179.3,110.5 L177.4,105.5 L180.0,95.0 L177.8,90.0 L177.6,81.4 L191.9,72.9 L192.0,67.2 L189.3,62.2 L180.7,60.6 L172.8,63.1 L159.0,57.3 L147.3,58.7 L141.3,55.9 L138.7,44.8 L134.1,39.0 L132.0,25.6 L108.6,8.9 L102.3,8.0 Z";
+
   const units=[
-    {id:0,x:18,y:78,w:30,h:20,c:"#3b82f6",icon:"⬇️",
+    {id:0,c:"#60a5fa",icon:"⬇️",
       he:["קליטה והפרדה ראשונית","Inlet / Reception"],
-      role_he:"קליטת הגז ה\u201Dחמוץ\u201D מהשדה הצפוני והפרדה ראשונית של נוזלים. כאן ריכוז ה-H\u2082S הגבוה ביותר.",
-      role_en:"Receives sour gas from the North Field and performs primary liquid separation. Highest H\u2082S concentration here."},
-    {id:1,x:54,y:78,w:30,h:20,c:"#10b981",icon:"🧪",
+      r_he:"קליטת הגז ה\u201Dחמוץ\u201D מהשדה הצפוני והפרדת נוזלים ראשונית. כאן ריכוז ה-H\u2082S הגבוה ביותר.",
+      r_en:"Receives sour gas from the North Field; primary liquid separation. Highest H\u2082S concentration here."},
+    {id:1,c:"#34d399",icon:"🧪",
       he:["המתקת אמינים","Amine Sweetening"],
-      role_he:"הסרת ה-H\u2082S וה-CO\u2082 בעזרת תמיסת אמינים. במעלה הזרם משלב זה הגז עדיין רעיל.",
-      role_en:"Removes H\u2082S and CO\u2082 with an amine solution. Upstream of this stage the gas is still toxic."},
-    {id:2,x:90,y:78,w:30,h:20,c:"#f59e0b",icon:"🔥",
+      r_he:"הסרת H\u2082S ו-CO\u2082 בעזרת תמיסת אמינים. במעלה הזרם משלב זה הגז עדיין רעיל.",
+      r_en:"Removes H\u2082S and CO\u2082 via an amine solution. Upstream of here the gas is still toxic."},
+    {id:2,c:"#fbbf24",icon:"🔥",
       he:["יחידת קלאוס (גופרית)","Claus Sulfur Unit"],
-      role_he:"שחזור גופרית מה-H\u2082S שהוסר (תגובת קלאוס). תוצר לוואי: גופרית מוצקה.",
-      role_en:"Recovers sulfur from the removed H\u2082S (Claus reaction). Byproduct: solid sulfur."},
-    {id:3,x:126,y:78,w:32,h:20,c:"#8b5cf6",icon:"⚗️",
+      r_he:"שחזור גופרית מה-H\u2082S שהוסר (תגובת קלאוס). תוצר לוואי: גופרית מוצקה.",
+      r_en:"Recovers sulfur from the removed H\u2082S (Claus reaction). Byproduct: solid sulfur."},
+    {id:3,c:"#a78bfa",icon:"⚗️",
       he:["זיקוק NGL","NGL Fractionation"],
-      role_he:"הפרדת אתאן, גפ\u201Dמ וקונדנסט בלחץ גבוה. שחרור פתאומי כאן יוצר ענן אדים עצום.",
-      role_en:"High-pressure separation of ethane, LPG and condensate. A sudden release here forms a huge vapor cloud."},
-    {id:4,x:150,y:30,w:0,h:0,c:"#f59e0b",icon:"⛽",
-      he:["מצברי NGL (כדורי הורטון)","NGL Storage (Horton spheres)"],
-      role_he:"אחסון גז מונזל בכדורי לחץ. רגישים לאירוע BLEVE \u2014 קירורם היה עדיפות עליונה.",
-      role_en:"Liquefied-gas pressure spheres. Vulnerable to a BLEVE \u2014 cooling them was a top priority."},
-    {id:5,x:118,y:108,w:34,h:22,c:"#ef4444",icon:"💥",
+      r_he:"הפרדת אתאן, גפ\u201Dמ וקונדנסט בלחץ גבוה. שחרור פתאומי כאן יוצר ענן אדים עצום.",
+      r_en:"High-pressure separation of ethane, LPG, condensate. A sudden release forms a huge vapor cloud."},
+    {id:4,c:"#ef4444",icon:"💥",
       he:["תחנת מדחסים \u2014 מוקד הפיצוץ","Compressor Station \u2014 Blast Origin"],
-      role_he:"מוקד ה-VCE: ענן הגז נדד לכאן, נחשף למקור הצתה (משטח חם / ניצוץ מציוד שאינו מוגן פיצוץ) והתפוצץ.",
-      role_en:"The VCE origin: the gas cloud drifted here, met an ignition source (hot surface / spark from non-explosion-proof equipment) and detonated."},
-    {id:6,x:22,y:116,w:30,h:18,c:"#64748b",icon:"🛰️",
+      r_he:"מוקד ה-VCE: ענן הגז נדד לכאן, נחשף למקור הצתה (משטח חם / ניצוץ מציוד שאינו מוגן פיצוץ) והתפוצץ.",
+      r_en:"The VCE origin: the cloud drifted here, met an ignition source (hot surface / spark) and detonated."},
+    {id:5,c:"#f59e0b",icon:"⛽",
+      he:["מצברי NGL (כדורי הורטון)","NGL Storage (Horton spheres)"],
+      r_he:"אחסון גז מונזל בכדורי לחץ. רגישים ל-BLEVE \u2014 קירורם היה עדיפות עליונה.",
+      r_en:"Liquefied-gas pressure spheres. BLEVE-vulnerable \u2014 cooling them was a top priority."},
+    {id:6,c:"#94a3b8",icon:"🛰️",
       he:["חדר בקרה ממוגן","Hardened Control Room"],
-      role_he:"מרחק בטוח מהיחידות. ממנו בוצעה שליטה מרחוק וסגירת מגופי ה-ESD הראשיים.",
-      role_en:"Set at a safe distance. Remote control and main ESD-valve shutdown were executed from here."},
+      r_he:"במרחק בטוח מהיחידות. ממנו בוצעה שליטה מרחוק וסגירת מגופי ה-ESD הראשיים.",
+      r_en:"At a safe distance. Remote control and main ESD-valve shutdown were executed from here."},
   ];
   const su=units.find(u=>u.id===sel)!;
-  return <Sec id="map" num="03" title={he?"מפת המתקן והאסון":"Facility & Disaster Map"} subtitle={he?"תרשים אתר עילי של ראס לאפן ומוקד הפיצוץ":"Top-down site plan of Ras Laffan and the blast origin"} dark sidebar={<>
-    <SB color="gold" title={he?"איפה זה קרה?":"Where did it happen?"}><p>{he?"קריית התעשייה ראס לאפן בצפון-מזרח קטר, כ-80 ק\u201Dמ מדוחא \u2014 מרכז ה-LNG הגדול בעולם. מתקן ברזאן יושב בתוך המתחם.":"Ras Laffan Industrial City in north-east Qatar, ~80 km from Doha \u2014 the world\u2019s largest LNG hub. The Barzan plant sits within the complex."}</p></SB>
-    <SB color="red" title={he?"⚠️ מוקד הפיצוץ":"⚠️ Blast Origin"}><p>{he?"תחנת המדחסים. הקש על כל יחידה בתרשים כדי לראות את תפקידה ואת הרלוונטיות שלה לאירוע.":"The compressor station. Tap any unit on the plan to see its role and relevance to the event."}</p></SB>
-  </>}>
-    <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:14}}>{he?"להלן תרשים סכמטי (מבט-על) של מתחם המתקן: יחידות העיבוד, מאגרי הגז המונזל, חדר הבקרה הממוגן וטבעת גלאי הגז ההיקפית. הכוכב האדום מסמן את מוקד הפיצוץ. הקש על יחידה לפרטים.":"Below is a schematic top-down plan of the plant complex: the process units, liquefied-gas storage, the hardened control room and the perimeter gas-detector ring. The red star marks the blast origin. Tap a unit for detail."}</p>
 
-    {/* Qatar locator inset */}
-    <div className="cm" style={{padding:12,marginBottom:14,background:"linear-gradient(135deg,#0c1222,#162040)"}}>
-      <p style={{fontSize:10,fontWeight:700,color:P.gL,textAlign:"center",marginBottom:8,textTransform:"uppercase",letterSpacing:"0.12em"}}>{he?"מיקום \u2014 קטר":"Location \u2014 Qatar"}</p>
-      <svg viewBox="0 0 200 120" style={{width:"100%",maxWidth:340,display:"block",margin:"0 auto"}}>
-        <rect x="0" y="0" width="200" height="120" fill="#0b2540" opacity="0.5"/>
-        {/* Persian Gulf label */}
-        <text x="30" y="20" fill="#3b6ea5" fontSize="6" fontStyle="italic">{he?"המפרץ הפרסי":"Persian Gulf"}</text>
-        {/* Qatar peninsula (simplified thumb shape) */}
-        <path d="M96,18 C108,16 120,22 124,38 C128,54 126,72 118,90 C112,102 100,106 92,100 C86,95 88,82 86,72 C84,60 82,48 86,36 C89,26 90,20 96,18 Z" fill="#1f3a2e" stroke="#c8a44e" strokeWidth="1" opacity="0.92"/>
-        {/* Doha */}
-        <circle cx="118" cy="74" r="2.4" fill="#e8d5a0"/>
-        <text x="122" y="76" fill="#e8d5a0" fontSize="6">{he?"דוחא":"Doha"}</text>
-        {/* Ras Laffan (NE) with pulse */}
-        <circle cx="114" cy="34" r="6" fill="none" stroke="#ef4444" strokeWidth="0.8" style={{animation:"apulse 2.5s ease-in-out infinite"}}/>
-        <circle cx="114" cy="34" r="3" fill="#ef4444"/>
-        <text x="120" y="33" fill="#fca5a5" fontSize="6.5" fontWeight="bold">Ras Laffan</text>
-        <text x="120" y="40" fill="#fca5a5" fontSize="5">{he?"מתקן ברזאן":"Barzan plant"}</text>
-        {/* Saudi border hint */}
-        <line x1="86" y1="40" x2="78" y2="36" stroke="#3b6ea5" strokeWidth="0.6" strokeDasharray="2 2"/>
-        <text x="40" y="100" fill="#3b6ea5" fontSize="5">{he?"ערב הסעודית":"Saudi Arabia"}</text>
+  // facility schematic boxes (viewBox 320 x 210)
+  const boxStyle=(active:boolean,c:string):React.CSSProperties=>({cursor:"pointer"});
+  const train=[
+    {id:0,x:20,label_he:"קליטה",label_en:"Inlet",c:"#60a5fa"},
+    {id:1,x:84,label_he:"אמינים",label_en:"Amine",c:"#34d399"},
+    {id:2,x:148,label_he:"קלאוס",label_en:"Claus",c:"#fbbf24"},
+    {id:3,x:212,label_he:"זיקוק",label_en:"NGL",c:"#a78bfa"},
+  ];
+
+  return <Sec id="map" num="03" title={he?"מפת המתקן והאזור":"Facility & Area Map"} subtitle={he?"מפה גאוגרפית של קטר ותרשים אתר של מתקן ברזאן בראס לאפן":"Geographic map of Qatar and a site plan of the Barzan plant at Ras Laffan"} dark sidebar={<>
+    <SB color="gold" title={he?"איפה זה קרה?":"Where did it happen?"}><p>{he?"מתקן ברזאן יושב בקריית התעשייה ראס לאפן בצפון-מזרח קטר, על חוף המפרץ הפרסי \u2014 כ-80 ק\u201Dמ מצפון לדוחא, מרכז ה-LNG הגדול בעולם.":"The Barzan plant sits in Ras Laffan Industrial City in north-east Qatar, on the Persian Gulf coast \u2014 about 80 km north of Doha, the world\u2019s largest LNG hub."}</p></SB>
+    <SB color="red" title={he?"⚠️ מוקד הפיצוץ":"⚠️ Blast Origin"}><p>{he?"תחנת המדחסים. בתרשים האתר \u2014 הקש על כל יחידה כדי לראות את תפקידה ואת מקומה ברצף הכשל.":"The compressor station. On the site plan \u2014 tap any unit to see its role and place in the failure chain."}</p></SB>
+  </>}>
+
+    {/* ---------- REAL QATAR MAP ---------- */}
+    <div className="cm" style={{padding:14,marginBottom:16,background:"linear-gradient(160deg,#0a1a2e,#0d2440)"}}>
+      <p style={{fontSize:11,fontWeight:800,color:P.gL,textAlign:"center",marginBottom:4,textTransform:"uppercase",letterSpacing:"0.14em"}}>{he?"מפת קטר \u2014 מיקום המתקן":"Qatar \u2014 Plant Location"}</p>
+      <p style={{fontSize:10,color:P.muted,textAlign:"center",marginBottom:10}}>{he?"גבולות גאוגרפיים מדויקים · ערים במיקום אמיתי":"Accurate geographic boundary · real city positions"}</p>
+      <svg viewBox="0 0 200 393.7" preserveAspectRatio="xMidYMid meet" style={{width:"auto",height:"clamp(300px,52vh,440px)",display:"block",margin:"0 auto",maxWidth:"100%"}}>
+        <defs>
+          <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#0e2c4a"/><stop offset="1" stopColor="#0a2038"/>
+          </linearGradient>
+          <linearGradient id="land" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#26352b"/><stop offset="1" stopColor="#1d2c23"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="0" width="200" height="393.7" fill="url(#sea)"/>
+        {/* graticule */}
+        {[40,80,120,160].map(x=><line key={"v"+x} x1={x} y1="0" x2={x} y2="393.7" stroke="#1d4366" strokeWidth="0.4" opacity="0.5"/>)}
+        {[60,120,180,240,300,360].map(y=><line key={"h"+y} x1="0" y1={y} x2="200" y2={y} stroke="#1d4366" strokeWidth="0.4" opacity="0.5"/>)}
+        {/* landmass */}
+        <path d={QATAR} fill="url(#land)" stroke="#c8a44e" strokeWidth="1.3" strokeLinejoin="round"/>
+        {/* water labels */}
+        <text x="14" y="120" fill="#4a7ba6" fontSize="8" fontStyle="italic" transform="rotate(-90 14,120)">{he?"המפרץ הפרסי":"Persian Gulf"}</text>
+        <text x="30" y="345" fill="#6b8caa" fontSize="7">{he?"ערב הסעודית":"Saudi Arabia"}</text>
+        <line x1="22" y1="325" x2="46" y2="368" stroke="#6b8caa" strokeWidth="0.8" strokeDasharray="3 3" opacity="0.7"/>
+        {/* cities */}
+        {/* Ras Laffan (incident) */}
+        <circle cx="179" cy="70.4" r="9" fill="none" stroke="#ef4444" strokeWidth="1" style={{animation:"apulse 2.4s ease-in-out infinite"}}/>
+        <circle cx="179" cy="70.4" r="4" fill="#ef4444" stroke="#fff" strokeWidth="0.8"/>
+        <text x="172" y="66" textAnchor="end" fill="#fca5a5" fontSize="9" fontWeight="bold">Ras Laffan</text>
+        <text x="172" y="75" textAnchor="end" fill="#fca5a5" fontSize="7">{he?"מתקן ברזאן":"Barzan plant"}</text>
+        {/* Doha (capital) */}
+        <g transform="translate(164.9,206.6)"><path d="M0,-5 L1.5,-1.5 L5,-1.5 L2,1 L3,5 L0,2.5 L-3,5 L-2,1 L-5,-1.5 L-1.5,-1.5 Z" fill="#e8d5a0"/></g>
+        <text x="158" y="208" textAnchor="end" fill="#e8d5a0" fontSize="8.5" fontWeight="bold">{he?"דוחא":"Doha"}</text>
+        {/* other cities */}
+        {[
+          {x:158.4,y:119.0,he:"אל-ח\u05F3ור",en:"Al Khor",a:"end",dx:-7,dy:3},
+          {x:102.2,y:21.0,he:"א-רוויס",en:"Al Ruwais",a:"middle",dx:0,dy:-7},
+          {x:15.9,y:174.8,he:"דוח\u05F3אן",en:"Dukhan",a:"start",dx:7,dy:3},
+          {x:168.7,y:271.4,he:"מסיעיד",en:"Mesaieed",a:"end",dx:-7,dy:3},
+        ].map((c,i)=>(<g key={i}>
+          <circle cx={c.x} cy={c.y} r="2.6" fill="#cbd5e1"/>
+          <text x={c.x+c.dx} y={c.y+c.dy} textAnchor={c.a as any} fill="#cbd5e1" fontSize="7">{he?c.he:c.en}</text>
+        </g>))}
+        {/* compass */}
+        <g transform="translate(184,20)"><circle r="9" fill="#0a1a2e" stroke="#c8a44e" strokeWidth="0.6"/><path d="M0,-6 L2.5,2 L0,0 L-2.5,2 Z" fill="#ef4444"/><text x="0" y="-9.5" textAnchor="middle" fill="#c8a44e" fontSize="5.5" fontWeight="bold">N</text></g>
+        {/* scale bar: 50 km ≈ 86 units */}
+        <g transform="translate(14,378)">
+          <line x1="0" y1="0" x2="86" y2="0" stroke="#cbd5e1" strokeWidth="1.2"/>
+          <line x1="0" y1="-3" x2="0" y2="3" stroke="#cbd5e1" strokeWidth="1.2"/>
+          <line x1="86" y1="-3" x2="86" y2="3" stroke="#cbd5e1" strokeWidth="1.2"/>
+          <text x="43" y="-4" textAnchor="middle" fill="#cbd5e1" fontSize="7">50 {he?"ק\u201Dמ":"km"}</text>
+        </g>
       </svg>
     </div>
 
-    {/* Facility schematic */}
-    <div className="cm" style={{padding:14,background:"linear-gradient(135deg,#0d1626,#0a1120)"}}>
-      <svg viewBox="0 0 200 150" style={{width:"100%",display:"block"}}>
-        {/* sea (north) + jetty */}
-        <rect x="0" y="0" width="200" height="18" fill="#13314f" opacity="0.7"/>
-        <text x="6" y="11" fill="#5b86b3" fontSize="5" fontStyle="italic">{he?"הים \u2014 צפון / מזח":"Sea \u2014 North / Jetty"}</text>
-        <rect x="150" y="14" width="5" height="14" fill="#334155"/>
-        <line x1="152.5" y1="18" x2="152.5" y2="78" stroke="#c8a44e" strokeWidth="0.8" strokeDasharray="3 3" className="flow-arrow"/>
+    {/* ---------- CLEAN FACILITY SCHEMATIC ---------- */}
+    <p style={{fontSize:13,color:P.steel,lineHeight:1.8,marginBottom:10}}>{he?"תרשים אתר (מבט-על) של מתחם המתקן \u2014 רצף העיבוד, מאגרי הגז המונזל, חדר הבקרה וטבעת גלאי הגז. הטבעות המקווקוות הן אזורי הסיכון סביב מוקד הפיצוץ. הקש על יחידה לפרטים.":"Site plan (top-down) of the plant \u2014 the process train, liquefied-gas storage, control room and the gas-detector ring. The dashed rings are the hazard zones around the blast origin. Tap a unit for detail."}</p>
+    <div className="cm" style={{padding:14,background:"#0b1424"}}>
+      <svg viewBox="0 0 320 210" style={{width:"100%",display:"block"}}>
+        {/* sea + jetty */}
+        <rect x="12" y="10" width="296" height="13" rx="2" fill="#13314f" opacity="0.7"/>
+        <text x="18" y="19.5" fill="#5b86b3" fontSize="6" fontStyle="italic">{he?"הים · מזח":"Sea · Jetty"}</text>
+        <rect x="246" y="20" width="5" height="8" fill="#334155"/>
         {/* perimeter fence */}
-        <rect x="8" y="22" width="184" height="120" rx="3" fill="none" stroke="#475569" strokeWidth="0.8" strokeDasharray="4 3"/>
-        {/* perimeter gas detectors */}
-        {[[8,40],[8,80],[8,120],[100,142],[192,40],[192,80],[192,120],[60,22],[140,22]].map((p,i)=>(
+        <rect x="12" y="26" width="296" height="160" rx="4" fill="none" stroke="#3f5168" strokeWidth="0.8" strokeDasharray="5 3"/>
+
+        {/* hazard zones — dashed outline rings centered on compressor (176,150), drawn behind units */}
+        {[{rx:150,ry:70,c:"#fbbf24",l:he?"קר":"Cold"},{rx:108,ry:54,c:"#f59e0b",l:he?"חמים":"Warm"},{rx:66,ry:38,c:"#ef4444",l:he?"חם":"Hot"}].map((z,i)=>(
           <g key={i}>
-            <rect x={p[0]-2} y={p[1]-2} width="4" height="4" fill="#22d3ee" opacity="0.85"/>
-            <circle cx={p[0]} cy={p[1]} r="3" fill="none" stroke="#22d3ee" strokeWidth="0.4" opacity="0.5" style={{animation:`apulse ${3+i*0.3}s ease-in-out infinite`}}/>
+            <ellipse cx="176" cy="150" rx={z.rx} ry={z.ry} fill="none" stroke={z.c} strokeWidth="1" strokeDasharray="4 4" opacity="0.85"/>
+            <text x={176+z.rx-2} y="150" textAnchor="end" fill={z.c} fontSize="6.5" fontWeight="bold" opacity="0.95">{z.l}</text>
           </g>
         ))}
-        <text x="11" y="38" fill="#22d3ee" fontSize="3.6">{he?"גלאי גז היקפי":"perimeter detectors"}</text>
 
-        {/* hazard zones from blast origin (compressor ~135,119) */}
-        {[{rx:78,ry:46,c:"#dc2626",o:0.10},{rx:52,ry:32,c:"#f59e0b",o:0.12},{rx:28,ry:18,c:"#fbbf24",o:0.16}].map((z,i)=>(
-          <ellipse key={i} cx="135" cy="119" rx={z.rx} ry={z.ry} fill={z.c} opacity={z.o} style={{animation:`cloudPulse ${3+i*0.5}s ease-in-out infinite`}}/>
+        {/* perimeter detectors */}
+        {[[12,55],[12,150],[160,26],[160,186],[308,55],[308,150],[80,26],[240,186]].map((p,i)=>(
+          <g key={i}>
+            <rect x={p[0]-2.5} y={p[1]-2.5} width="5" height="5" fill="#22d3ee" opacity="0.9"/>
+          </g>
         ))}
+        <text x="16" y="52" fill="#22d3ee" fontSize="5.5">{he?"גלאי גז היקפי":"perimeter detectors"}</text>
 
-        {/* NGL storage spheres (Horton) */}
-        <g onClick={()=>setSel(4)} style={{cursor:"pointer"}}>
-          {[150,162,174].map((cx,i)=>(
-            <g key={i}>
-              <circle cx={cx} cy="34" r="6.5" fill={sel===4?"#f59e0b40":"#f59e0b20"} stroke="#f59e0b" strokeWidth={sel===4?"1.2":"0.7"}/>
-              <line x1={cx-3} y1="38" x2={cx-3} y2="42" stroke="#f59e0b" strokeWidth="0.6"/>
-              <line x1={cx+3} y1="38" x2={cx+3} y2="42" stroke="#f59e0b" strokeWidth="0.6"/>
-            </g>
-          ))}
-          <text x="162" y="52" textAnchor="middle" fill="#f59e0b" fontSize="4.4" fontWeight="bold">NGL</text>
+        {/* wind */}
+        <g transform="translate(30,44)"><line x1="0" y1="0" x2="22" y2="14" stroke="#93c5fd" strokeWidth="1.6"/><polygon points="22,14 15,13 18,8" fill="#93c5fd"/><text x="-2" y="2" textAnchor="end" fill="#93c5fd" fontSize="7">{he?"רוח":"Wind"}</text></g>
+
+        {/* NGL spheres */}
+        <g onClick={()=>setSel(5)} style={{cursor:"pointer"}}>
+          {[238,258,278].map((cx,i)=>(<g key={i}>
+            <circle cx={cx} cy="50" r="9" fill={sel===5?"#f59e0b55":"#f59e0b22"} stroke="#f59e0b" strokeWidth={sel===5?"1.6":"0.9"}/>
+            <line x1={cx-4} y1="56" x2={cx-4} y2="61" stroke="#f59e0b" strokeWidth="0.7"/>
+            <line x1={cx+4} y1="56" x2={cx+4} y2="61" stroke="#f59e0b" strokeWidth="0.7"/>
+          </g>))}
+          <text x="258" y="73" textAnchor="middle" fill="#f59e0b" fontSize="7" fontWeight="bold">NGL</text>
         </g>
 
-        {/* process units */}
-        {units.filter(u=>u.w>0).map(u=>{
-          const active=sel===u.id;
-          return <g key={u.id} onClick={()=>setSel(u.id)} style={{cursor:"pointer"}}>
-            <rect x={u.x} y={u.y} width={u.w} height={u.h} rx="2"
-              fill={`${u.c}${active?"40":"22"}`} stroke={u.c} strokeWidth={active?"1.4":"0.7"}
-              style={active?{filter:`drop-shadow(0 0 4px ${u.c})`}:undefined}/>
-            <text x={u.x+u.w/2} y={u.y+u.h/2+1.5} textAnchor="middle" fill={u.c} fontSize="4.2" fontWeight="bold">{he?u.he[0].split(" ")[0]:u.he[1].split(" ")[0]}</text>
-            {u.id===5&&<>
-              {/* blast star + shockwaves */}
-              <circle cx={u.x+u.w/2} cy={u.y+u.h/2} r="3" fill="none" stroke="#fca5a5" strokeWidth="0.6" style={{animation:"apulse 1.8s ease-in-out infinite"}}/>
-              <text x={u.x+u.w/2} y={u.y-2} textAnchor="middle" fontSize="7">💥</text>
-            </>}
+        {/* process train */}
+        {train.map((b,i)=>{
+          const active=sel===b.id;
+          return <g key={b.id} onClick={()=>setSel(b.id)} style={{cursor:"pointer"}}>
+            <rect x={b.x} y="92" width="52" height="30" rx="3" fill={`${b.c}${active?"55":"26"}`} stroke={b.c} strokeWidth={active?"2":"1"} style={active?{filter:`drop-shadow(0 0 5px ${b.c})`}:undefined}/>
+            <text x={b.x+26} y="111" textAnchor="middle" fill={b.c} fontSize="9" fontWeight="bold">{he?b.label_he:b.label_en}</text>
+            {i<train.length-1&&<line x1={b.x+52} y1="107" x2={b.x+64} y2="107" stroke="#c8a44e" strokeWidth="1.4" strokeDasharray="3 2" className="flow-arrow"/>}
           </g>;
         })}
+        {/* NGL frac -> spheres link */}
+        <line x1="238" y1="92" x2="258" y2="62" stroke="#c8a44e" strokeWidth="1.2" strokeDasharray="3 2" className="flow-arrow"/>
+        {/* train -> compressor link */}
+        <line x1="238" y1="122" x2="200" y2="138" stroke="#c8a44e" strokeWidth="1.2" strokeDasharray="3 2" className="flow-arrow"/>
 
-        {/* flow arrows between main train */}
-        {[[48,88,54],[84,88,90],[120,88,126]].map((a,i)=>(
-          <line key={i} x1={a[0]} y1={a[1]} x2={a[2]} y2={a[1]} stroke="#c8a44e" strokeWidth="0.9" strokeDasharray="2 2" className="flow-arrow"/>
-        ))}
-        {/* link fractionation -> compressor */}
-        <line x1="142" y1="98" x2="135" y2="108" stroke="#c8a44e" strokeWidth="0.9" strokeDasharray="2 2" className="flow-arrow"/>
-
-        {/* flare stack (corner) */}
-        <g>
-          <rect x="178" y="100" width="3" height="20" fill="#475569"/>
-          <path d="M179.5,100 q-3,-5 0,-9 q3,4 0,9 Z" fill="#ff6b00" style={{animation:"flicker 1.2s ease-in-out infinite",transformOrigin:"179px 100px"}}/>
-          <text x="179.5" y="126" textAnchor="middle" fill="#94a3b8" fontSize="3.6">{he?"לפיד":"Flare"}</text>
+        {/* compressor = blast origin */}
+        <g onClick={()=>setSel(4)} style={{cursor:"pointer"}}>
+          <rect x="146" y="138" width="62" height="30" rx="3" fill={sel===4?"#ef444466":"#ef444433"} stroke="#ef4444" strokeWidth={sel===4?"2.2":"1.4"} style={sel===4?{filter:"drop-shadow(0 0 6px #ef4444)"}:undefined}/>
+          <text x="177" y="157" textAnchor="middle" fill="#fca5a5" fontSize="9" fontWeight="bold">{he?"מדחסים":"Compressors"}</text>
+          <text x="177" y="133" textAnchor="middle" fontSize="11">💥</text>
         </g>
 
-        {/* wind vector NW->SE */}
-        <g transform="translate(20,30)">
-          <line x1="0" y1="0" x2="16" y2="10" stroke="#93c5fd" strokeWidth="1.2"/>
-          <polygon points="16,10 11,9 13,5" fill="#93c5fd"/>
-          <text x="0" y="-3" fill="#93c5fd" fontSize="4.5">{he?"רוח":"Wind"}</text>
+        {/* control room */}
+        <g onClick={()=>setSel(6)} style={{cursor:"pointer"}}>
+          <rect x="24" y="150" width="54" height="28" rx="3" fill={sel===6?"#94a3b855":"#94a3b822"} stroke="#94a3b8" strokeWidth={sel===6?"2":"1"}/>
+          <text x="51" y="167" textAnchor="middle" fill="#cbd5e1" fontSize="8" fontWeight="bold">{he?"חדר בקרה":"Control"}</text>
         </g>
 
-        {/* zone legend */}
-        {[{c:"#dc2626",l:he?"אזור חם":"Hot"},{c:"#f59e0b",l:he?"חמים":"Warm"},{c:"#fbbf24",l:he?"קר":"Cold"}].map((z,i)=>(
-          <g key={i} transform={`translate(${56+i*40},138)`}>
-            <rect width="5" height="5" fill={z.c} opacity="0.7"/>
-            <text x="7" y="4.4" fill="#cbd5e1" fontSize="4.2">{z.l}</text>
-          </g>
-        ))}
+        {/* flare */}
+        <g><rect x="296" y="120" width="3.5" height="40" fill="#475569"/><path d="M297.7,120 q-4,-6 0,-11 q4,5 0,11 Z" fill="#ff6b00" style={{animation:"flicker 1.2s ease-in-out infinite",transformOrigin:"297px 120px"}}/><text x="297.7" y="170" textAnchor="middle" fill="#94a3b8" fontSize="5.5">{he?"לפיד":"Flare"}</text></g>
       </svg>
+      {/* clean HTML legend (no overlap) */}
+      <div style={{display:"flex",flexWrap:"wrap",gap:"8px 16px",justifyContent:"center",marginTop:12,paddingTop:12,borderTop:`1px solid ${P.border}`}}>
+        {[{c:"#ef4444",l:he?"מוקד הפיצוץ":"Blast origin"},{c:"#22d3ee",l:he?"גלאי גז":"Gas detector"},{c:"#f59e0b",l:he?"אחסון NGL":"NGL storage"},{c:"#93c5fd",l:he?"כיוון רוח":"Wind direction"}].map((x,i)=>(
+          <span key={i} style={{display:"inline-flex",alignItems:"center",gap:6,fontSize:11,color:P.steel}}><span style={{width:10,height:10,borderRadius:2,background:x.c,flexShrink:0}}/>{x.l}</span>
+        ))}
+      </div>
     </div>
 
     {/* selected-unit info */}
@@ -940,9 +977,9 @@ function FacilityMap({lang}:{lang:string}){
         <span style={{fontSize:24}}>{su.icon}</span>
         <h4 className="sf" style={{fontSize:17,fontWeight:800,color:P.ink}}>{he?su.he[0]:su.he[1]}</h4>
       </div>
-      <p style={{fontSize:13,color:P.steel,lineHeight:1.75}}>{he?su.role_he:su.role_en}</p>
+      <p style={{fontSize:13,color:P.steel,lineHeight:1.75}}>{he?su.r_he:su.r_en}</p>
     </div>
-    <p style={{fontSize:10,color:P.muted,marginTop:12,lineHeight:1.6}}>{he?"🗺️ תרשים סכמטי להמחשה בלבד \u2014 אינו תכנית הנדסית מדויקת של המתקן. מיקומי היחידות ואזורי הסיכון הם המחשה של תורת הלחימה והפיזור.":"🗺️ Schematic illustration only \u2014 not an exact engineering plan. Unit positions and hazard zones illustrate the response doctrine and dispersion."}</p>
+    <p style={{fontSize:10,color:P.muted,marginTop:12,lineHeight:1.6}}>{he?"🗺️ המפה הגאוגרפית מבוססת גבולות אמיתיים של קטר. תרשים האתר הוא סכמטי להמחשת תורת הלחימה והפיזור \u2014 אינו תכנית הנדסית מדויקת.":"🗺️ The geographic map uses Qatar\u2019s real boundaries. The site plan is schematic, illustrating the response and dispersion doctrine \u2014 not an exact engineering drawing."}</p>
   </Sec>;
 }
 
