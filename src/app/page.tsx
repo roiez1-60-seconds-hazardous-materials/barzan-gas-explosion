@@ -547,48 +547,53 @@ function Lessons({lang}:{lang:string}){const he=lang==="he";const lessons=[
 </Sec>;}
 
 /* ═══ 12 INFOGRAPHIC ═══ */
-function Infographic({lang}:{lang:string}){const he=lang==="he";const[zoom,setZoom]=useState(false);const[pg,setPg]=useState(0);
+function Infographic({lang}:{lang:string}){
+  const he=lang==="he";
+  const[deck,setDeck]=useState<0|1>(0);
+  const[pg,setPg]=useState(0);
   const N=5;
-  const base=he?"/images/infographic-he-":"/images/infographic-en-";
-  const img=`${base}${pg+1}.jpg`;
-  const titlesHe=["תמונת מצב מודיעינית","פרופיל מתקן ואפיון סיכונים","הקשר גיאופוליטי מול הגרסה הרשמית","השערה לרצף האירוע (VCE)","סיכום: עובדות מול פערי מידע"];
-  const titlesEn=["Incident Zero — Official Facts","Facility Profile & Hazard Environment","Context — Shutdown Amidst Crisis","Official Declarations","Failure Mechanism Hypothesis"];
-  const T=he?titlesHe:titlesEn;
-  const go=(d:number)=>setPg(p=>(p+d+N)%N);
-  return<Sec id="infographic" num="13" title={he?"אינפוגרפיקה":"Infographic"} subtitle={he?"תקציר ויזואלי — 5 לוחות":"A visual summary — 5 panels"}>
-  {/* Clarification note about figures */}
-  <div className="cm" style={{padding:"12px 16px",borderInlineStart:`3px solid ${P.amber}`,background:P.amberS,marginBottom:16}}>
-    <p style={{fontSize:12,color:P.steel,lineHeight:1.7}}>{he?"⚠️ הבהרה: מנגנון הכשל המוצג באינפוגרפיקה הוא השערה הנדסית — לא ממצא רשמי. הסיבה הרשמית היחידה היא \"תקלה טכנית במהלך התנעה מחדש\". הנתונים המאומתים: 13 הרוגים, 66 פצועים.":"⚠️ Clarification: the failure mechanism shown in the infographic is an engineering hypothesis — not an official finding. The only official cause is a \"technical malfunction during start-up\". Verified figures: 13 fatalities, 66 injuries."}</p>
+  const go=(d:number)=>{setPg(p=>(p+d+N)%N);};
+  const decks=[
+    {file:"/barzan-intel.pdf",
+     label_he:"תמונת מצב מודיעינית",label_en:"Intelligence Briefing",
+     titles_he:["תמונת מצב מודיעינית","פרופיל מתקן ואפיון סיכונים","הקשר גיאופוליטי","השערה לרצף האירוע (VCE)","סיכום: עובדות מול פערי מידע"],
+     titles_en:["Intelligence Picture","Facility Profile & Combined Hazard","Geopolitical Context","VCE Hypothesis","Summary: Verified vs Pending"]},
+    {file:"/barzan-incident-zero.pdf",
+     label_he:"ניתוח אירוע — Incident Zero",label_en:"Incident Zero Analysis",
+     titles_he:["Incident Zero — עובדות רשמיות","פרופיל מתקן וסביבת סיכון","הקשר: השבתה בעיצומו של משבר","הצהרות רשמיות","השערה: מנגנון הכשל"],
+     titles_en:["Incident Zero — Official Facts","Facility Profile & Hazard Environment","Context — Shutdown Amidst Crisis","Official Declarations","Failure Mechanism Hypothesis"]},
+  ];
+  const D=decks[deck];
+  const T=he?D.titles_he:D.titles_en;
+  return<Sec id="infographic" num="13" title={he?"מצגות":"Presentations"} subtitle={he?"שתי מצגות מקצועיות — ניתוח מודיעיני ו-Incident Zero":"Two professional presentations — intelligence briefing & incident zero"}>
+  {/* Deck switcher */}
+  <div style={{display:"flex",gap:10,marginBottom:16,flexWrap:"wrap"}}>
+    {decks.map((d,i)=><button key={i} onClick={()=>{setDeck(i as 0|1);setPg(0);}} style={{flex:"1 1 auto",padding:"10px 14px",borderRadius:8,border:`2px solid ${deck===i?P.gold:P.border}`,background:deck===i?`${P.gold}18`:P.white,color:deck===i?P.gold:P.steel,fontWeight:700,fontSize:12,cursor:"pointer",transition:"all .2s",textAlign:"center"}}>{he?d.label_he:d.label_en}</button>)}
   </div>
   {/* Panel title + counter */}
   <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10,gap:12}}>
     <span style={{fontSize:13,fontWeight:700,color:P.navy,lineHeight:1.3}}>{T[pg]}</span>
     <span style={{fontSize:12,color:P.muted,whiteSpace:"nowrap",fontVariantNumeric:"tabular-nums"}}>{pg+1} / {N}</span>
   </div>
-  {/* The infographic image (current page) */}
-  <div className="cm" style={{padding:12,textAlign:"center",cursor:"zoom-in"}} onClick={()=>setZoom(true)}>
-    <img src={img} alt={`${T[pg]} — ${pg+1}/${N}`} style={{width:"100%",borderRadius:8,display:"block",margin:"0 auto",border:`1px solid ${P.border}`}}/>
-    <p style={{fontSize:11,color:P.muted,marginTop:10}}>{he?"👆 לחצו על התמונה להגדלה":"👆 Tap the image to enlarge"}</p>
+  {/* PDF embed — view only, no download controls */}
+  <div className="cm" style={{padding:8,background:"#f8f9fb"}}>
+    <iframe
+      key={`${deck}-${pg}`}
+      src={`${D.file}#page=${pg+1}&view=FitH&toolbar=0&navpanes=0&scrollbar=0`}
+      title={T[pg]}
+      style={{width:"100%",height:"clamp(280px,52vw,520px)",border:"none",borderRadius:6,display:"block"}}
+      allow="fullscreen"
+    />
+    <p style={{fontSize:10,color:P.muted,marginTop:8,textAlign:"center"}}>{he?"📋 מצגת לצפייה בלבד — לחצו על הלוחות לניווט":"📋 Presentation view only — use controls to navigate"}</p>
   </div>
   {/* Nav controls */}
   <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:14,marginTop:14}}>
-    <button onClick={()=>go(-1)} aria-label={he?"לוח קודם":"Previous panel"} style={{width:44,height:44,borderRadius:"50%",border:`1px solid ${P.border}`,background:P.white,color:P.navy,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{he?"›":"‹"}</button>
+    <button onClick={()=>go(-1)} aria-label={he?"לוח קודם":"Previous"} style={{width:44,height:44,borderRadius:"50%",border:`1px solid ${P.border}`,background:P.white,color:P.navy,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{he?"›":"‹"}</button>
     <div style={{display:"flex",gap:8}}>
       {Array.from({length:N}).map((_,i)=><button key={i} onClick={()=>setPg(i)} aria-label={`${he?"לוח":"Panel"} ${i+1}`} style={{width:i===pg?22:9,height:9,borderRadius:9,border:"none",background:i===pg?P.gold:P.border,cursor:"pointer",transition:"all .2s ease",padding:0}}/>)}
     </div>
-    <button onClick={()=>go(1)} aria-label={he?"לוח הבא":"Next panel"} style={{width:44,height:44,borderRadius:"50%",border:`1px solid ${P.border}`,background:P.white,color:P.navy,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{he?"‹":"›"}</button>
+    <button onClick={()=>go(1)} aria-label={he?"לוח הבא":"Next"} style={{width:44,height:44,borderRadius:"50%",border:`1px solid ${P.border}`,background:P.white,color:P.navy,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{he?"‹":"›"}</button>
   </div>
-  <p style={{fontSize:10,color:P.muted,marginTop:14,textAlign:"center"}}>{he?"האינפוגרפיקה מתחלפת אוטומטית לפי שפת הממשק (עברית/אנגלית).":"The infographic switches automatically by interface language (Hebrew/English)."}</p>
-  {/* Zoom lightbox — current page, with in-lightbox paging */}
-  {zoom&&<div onClick={()=>setZoom(false)} style={{position:"fixed",inset:0,zIndex:200,background:"rgba(0,0,0,0.92)",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:16,cursor:"zoom-out"}}>
-    <img src={img} alt="" style={{maxWidth:"100%",maxHeight:"82vh",objectFit:"contain",borderRadius:8}}/>
-    <div onClick={e=>e.stopPropagation()} style={{display:"flex",alignItems:"center",gap:18,marginTop:18,cursor:"default"}}>
-      <button onClick={()=>go(-1)} style={{width:44,height:44,borderRadius:"50%",border:"none",background:"rgba(255,255,255,0.15)",color:"#fff",fontSize:22,cursor:"pointer"}}>{he?"›":"‹"}</button>
-      <span style={{color:"#fff",fontSize:14,fontVariantNumeric:"tabular-nums"}}>{pg+1} / {N}</span>
-      <button onClick={()=>go(1)} style={{width:44,height:44,borderRadius:"50%",border:"none",background:"rgba(255,255,255,0.15)",color:"#fff",fontSize:22,cursor:"pointer"}}>{he?"‹":"›"}</button>
-    </div>
-    <button onClick={()=>setZoom(false)} style={{position:"absolute",top:16,insetInlineEnd:16,width:40,height:40,borderRadius:"50%",border:"none",background:"rgba(255,255,255,0.15)",color:"#fff",fontSize:22,cursor:"pointer"}}>✕</button>
-  </div>}
 </Sec>;}
 
 /* ═══ 14 INVESTIGATION REPORT — native bilingual, same dossier design ═══ */
